@@ -217,12 +217,6 @@ To test OrbSLAM, we again generated a variety of image datasets from the same st
 
 \subsection{SeqSLAM parameter tuning}
 
-\begin{itemize}
-    \item SeqSLAM uses SAD matching with an offset window parameter to shift prospective images against each other
-    \item We can tune the choice of this parameter by testing the performance in a variety of different situations and with different parameter values
-    \item In a given situation, we can therefore look up the performance characteristics for different parameter values and make an informed choice about how to configure the algorithm.
-\end{itemize}
-
 The detailed analysis we have performed can be used to inform subsequent actions, including parameter tuning. To demonstrate this, we again tested the performance of Sum of Absolute Differences on the noon datasets across the range of lateral offsets shown in Figure \ref{fig:dataset-offset-example} with a variety of different offset window parameters. SeqSLAM uses Sum of Absolute Differences combined with an offset window parameter that shifts the image pixels to achieve a better matching image. The results of this test can be seen in Figure \ref{fig:offset-matching-param-results}.
 
 This data suggests that for distances up to 3.5m offset from the reference location, it is best to use the smaller 4 pixel window range. The use of an offset window shows clear improvement in performance, but larger windows may  introduce false matches. Larger windows may be appropriate to larger offset, and if necessary we could easily have tested this by generating more data and extending the experiment.
@@ -261,39 +255,6 @@ Unsurprisingly, observed performance is consistently better in simulation; we as
 %\end{enumerate}
 
 \section{STRENGTHS AND IDENTIFIED LIMITATIONS}
-
-Advantages
-\begin{itemize}
-    \item Once you have a simulation, given enough time you can generate arbitrary amounts of image data.
-    \item Repeatability, It is possible to capture the same image sequence and repeat the same tests in the same circumstances over and over again, even including dynamic scene elements or elements that respond to the action of the
-    \item Data interpolation for near-infinite variety
-    \begin{itemize}
-        \item If an algorithm struggles with data of a certain type of variety
-        \item I think this is one of the strongest advantages
-    \end{itemize}
-    \item Simple, comprehensive ground truth
-\end{itemize}
-
-Disadvantages
-\begin{itemize}
-    \item Can take a long time to generate datasets
-    \begin{itemize}
-        \item Running in the background, we produced about 6 new images per second
-        \item When working with continuously variable positions, such as when collecting data for position invariant place recognition, it is often trivially possible to combinatorially expand the number of output images, leading to over-large datasets that take a long time to generate and process. Since generating additional sample points can be very easy, care must be taken to keep the number of sample points generated within the time limitations of the project.
-    \end{itemize}
-    \item Simulations are not free or resource-cheap
-    \begin{itemize}
-        \item Developing realistic simulations takes time, and requires quality 3D models and textures, which must either be bought or commissioned from a professional artist
-        \item Simulation fidelity is a near-endless resource sink
-    \end{itemize}
-\end{itemize}
-
-Difficulties (things that are hard, but not actual disadvantages)
-\begin{itemize}
-    \item It can be hard to maintain scale between different scene elements
-    \item Creating or sourcing meshes, models and textures from which to build the simulation is expensive and time-consuming
-    \item Precomputation is a strong feature of the engine, particularly in lighting. At this time, redoing this precomputation is a manual process, such that whenever the lighting in the scene is significantly changed, the developer must manually trigger the recomputaton. While this is an understandable optimization given that lighting computations are complex and expensive, it makes it into a more manual process to construct datasets across different lighting conditions.
-\end{itemize}
 
 The most difficult and time consuming aspect of using high-fidelity simulation is creating the scene in the first place. Scenes are built of 3d models and textures, which are first time consuming to create, and then take even more time to arrange in the scene. The more realistic a scene is required to be, the longer both of these stages take. The creation of high quality 3D models and scenes is the speciality of a professional 3D artist, so if a particular problem requires large or realistic scene it may be necessary to hire a 3D artist to construct it. It can also be extremely difficult to maintain a consistent scale throughout the scene. Examination of our scene in Figure \ref{fig:street-scene-overview} will reveal a myriad of scale flaws, note for instance the height of the houses relative to the width of the road.
 

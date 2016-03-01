@@ -1,41 +1,10 @@
 % !TEX root = root.tex
-\begin{itemize}
-\item Problems:
-	\begin{itemize}
-	\item Collecting real-world data can be hard
-		\begin{itemize}
-		\item Collecting multiple viewpoints on the same location is difficult
-		\item Some environments are difficult or impossible to collect directly (hazardous environments)
-		\item Collecting datasets can be costly in time and monetary resources
-		\item Collecting large datasets is too time-consuming for a manual process, and automating it in the real-world requires expensive hardware (3D scanning turntables and such)
-		\item There are limitations on the match between the image and the ground truth, particularly on small scales
-		\end{itemize}
-	\item Experiments are always unique, it's impossible to set up a real-world experiment that is exactly repeatable, the best we can do is re-use one another's datasets, but this does not allow for interaction or feedback between the robot and the data
-	\item No integration between vision and control, since a dataset is predetermined and can't show changes caused by the control signal
-	\item Some data is infeasible to capture in the real world
-	    \begin{itemize}
-        \item Capturing the same scene from many different angles (you can do some with many cameras I guess)
-        \item Capturing the same scene in many different conditions
-        \begin{itemize}
-            \item some conditions do not occur naturally, or are very infrequent. Snow in brisbane.
-            \item Some conditions are dangerous 
-        \end{itemize}
-        \item Capturing dangerous or disaster-type conditions
-        \item Capturing image data in environments that are not readily available.
-        \item 
-	    \end{itemize}
-    \end{itemize}
-\end{itemize}
-Many of these problems could be addressed with simulation of sufficient visual quality. Hence this research to investigate the effectiveness of high-fidelity simulation for analysing and testing computer vision algorithms.
-
---
-
 Computer vision research typically relies on image datasets collected from the real world to test, train and analyse the algorithms developed. But acquiring the necessary image data from the real world can be difficult, expensive or, for certain kinds of data, outright impossible. For instance, research on algorithms that desire to be viewpoint invariant or condition invariant requires images from a wide variety of viewpoints or a variety of conditions. 
 
 Another key limitation on real-world image datasets is a lack of repeatability. Usually each experimental run or dataset capture is unique, as changes in time of day or time of year or weather all change lighting conditions, sky and, background elements. Even the exact position of the camera will vary at the small scale, shifting pixels and producing similar but distinct images, even in the most static environments.
 
-It is also often difficult to capture a sufficient amount of data from the real world. When working with supervised learning algorithms, such as modern deep-learning neural nets, a large amount of data is required to train and test the network. Crucially, this data must be of sufficient variety that the resulting network can generalize successfully to unseen data rather than over-fitting to the training data (TODO: Should I cite here?).
+It is also often difficult to capture a sufficient amount of data from the real world. When working with supervised learning algorithms, such as modern deep-learning neural nets, a large amount of data is required to train and test the network. Crucially, this data must be of sufficient variety that the resulting network can generalize successfully to unseen data rather than over-fitting to the training data.
 
-Further, a reliance on limited real-world datasets in turn limits the ability to demonstrate the generality and limitations of an algorithm. Take for instance the demonstrations of depth invariance in SMART (TODO: cite SMART paper), in which the adjusted SMART algorithm is shown to be capable of identifying places given a 4-lane change in depth. No claims are or can be made about the limitations of this technique; over how large a depth-change can the algorithm maintain performance? 100m? 1 km? How does the performance fall off as the depth increases? We cannot answer these questions using real-world data, as collecting the requisite images would be impossible.
+Further, a reliance on limited real-world datasets in turn limits the ability to demonstrate the generality and limitations of an algorithm. Take for instance the demonstrations of depth invariance in SMART \cite{pepperell2015automatic}, in which the adjusted SMART algorithm is shown to be capable of identifying places given a 4-lane change in depth. No claims are or can be made about the limitations of this technique; over how large a depth-change can the algorithm maintain performance? 100m? 1 km? How does the performance fall off as the depth increases? We cannot answer these questions using real-world data, as collecting the requisite images would be impossible.
 
 In this paper, we demonstrate that many of these issues can be addressed by generating image data on demand from a high-fidelity simulation environment. High-fidelity simulation is capable of generating arbitrary amounts of image data, which can be used to both train and test computer vision algorithms.
