@@ -10,16 +10,3 @@ Unreal Engine 4 has a number of additional advantages that make it suitable as a
 
 \subsection{Place Recognition}
 A place is defined as a distinct 2D or 3D location in the representation map of environment. In robotic vision, visual places are described using the image features which can be broadly classified into local and global image descriptors. The most common and efficient approaches for recognizing a place revisited by a robot make use of Bag of Words approach with features, for example, SURF in FAB-MAP \cite{Cummins2010} and ORB in ORB-SLAM \cite{Montiel2015} etc. Some extensions of such methods also include building vocabulary online in an incremental fashion or incorporating geometric constraints between words for better performance. These methodologies allow a wide baseline matching of places, but they are brittle towards vast changes in appearance of the environment. On the other hand, use of global image descriptors like BRIEF-GIST \cite{Sunderhauf2011} or patch-normalized downsampled images as in SeqSLAM \cite{Milford2012} allows matching across change in conditions, but lacks robustness towards viewpoint variations. There are some place recognition methods which have proven to work well with both condition and viewpoint variations as in \cite{McManus2014}, \cite{Milford2008} and \cite{Niko2015}. Some of the methods describe places in 3D using only monocular camera by employing Structure from Motion (SfM) techniques. This helps in sparse \cite{Montiel2015}, semi-dense \cite{Engel2014lsd, Mur-Artal2015b} or dense \cite{Newcombe2011} reconstruction of environment for visual SLAM and other similar applications.
- 
-\begin{itemize}
-    \item Sequence SLAM
-    \begin{itemize}
-        \item Developed by Milford and Wyeth... (citation)
-        \item Performs place recognition using 
-    \end{itemize}
-    \item {Challenges}
-        \begin{itemize}
-            \item challenges include viewpoint invariant place recognition, condition invariant place recognition, place recognition in dynamic environments
-            \item 
-        \end{itemize}
-\end{itemize}
