@@ -68,7 +68,7 @@ Applications of High-fidelity simulation to Computer Vision
 
 \section{ANALYSIS OF PLACE RECOGNITION}
 
-To demonstrate the effectiveness of high-fidelity simulation as an analysis tool for computer vision, we performed an in depth analysis of the viewpoint and time-of-day invariance of two different state-of-the-art place recognition algorithms, SeqSLAM (citation) and OrbSLAM (citation). Then, to demonstrate the versatility of we performed an analysis of the viewpoint dependence of object recognition.
+To demonstrate the effectiveness of high-fidelity simulation as an analysis tool for computer vision, we performed an in depth analysis of the viewpoint and time-of-day invariance of two different state-of-the-art place recognition algorithms, SeqSLAM \cite{Milford2012} and OrbSLAM \cite{Montiel2015}. Then, to demonstrate the versatility of we performed an analysis of the viewpoint dependence of object recognition.
 
 \subsection{Simulation Setup: Unreal Engine 4}
 
@@ -112,7 +112,7 @@ In order to explore how the performance of place recognition changes with time o
 
 \begin{figure}[t]
     \includegraphics[width=8cm]{dataset-image-variety-grid}
-    \caption{Sample images from the datasets used, all images are taken from the same place at different times of day and viewpoint variations. From left to right, viewpoints are the base unmodified path, offset left $2m$, offset right $2m$, angled up $30\degree$, and angled right $30\degree$}
+    \caption{Sample images from the datasets used, all images are taken from the same place at different times of day and viewpoint variations. From left to right, viewpoints are the base unmodified path, offset left 2m, offset right 2m, angled up $30\degree$, and angled right $30\degree$}
     \label{fig:dataset-example}
 \end{figure}
 
@@ -154,14 +154,14 @@ Interestingly, matching rate falls off similarly with angle change irrespective 
 
 \subsection{Place Recognition: SeqSLAM}
 
-The first full place recognition algorithm we investigated was SeqSLAM, first described by Milford and Wyeth (Milford \& Wyeth, 2012) (TODO: Check citation and the SeqSLAM version Sourav is using). SeqSLAM is a place recognition algorithm that searches for loop closures by attempting to match sequences of similar images. It measures image similarity using sum of absolute differences as analysed in the previous section.
+The first full place recognition algorithm we investigated was SeqSLAM, first described by Milford and Wyeth \cite{Milford2012}. SeqSLAM is a place recognition algorithm that searches for loop closures by attempting to match sequences of similar images. It measures image similarity using sum of absolute differences as analysed in the previous section.
 
 To perform the test, we generated 130 passes across 5 times of day and 26 different viewpoint variations from the street scene used in the other tests (figure \ref{fig:dataset-example}. We chose the baseline pass at noon as the reference dataset, and compared it to all 130 of the other datasets (including itself). For each dataset we calculated the maximum F1 score, the results are summarized in Figure \ref{fig:seqslam-results-stacked}.
 
 % TODO: This discussion changes depending on how the anomalous values shake out as errors or as corretct. May wind up with more simulation passes.
-The first immediately obvious result is the anomalous low performance values for a left $0.2m$ offset in the morning and at sunset, and the low performance across all times of day at a 10\degree vertical orientation change.  All of these changes are sudden and extreme, so the initial inclination is to sample around these points to see if there is a smooth or sudden decline. Based on the results of tweaking the parameters however, it seems more likely that SeqSLAM performance is sensitive to having achieved a certain level of matching, and that it will either perform very well or badly, rather than smoothly transition.
+The first immediately obvious result is the anomalous low performance values for a left 0.2m offset in the morning and at sunset, and the low performance across all times of day at a 10\degree vertical orientation change.  All of these changes are sudden and extreme, so the initial inclination is to sample around these points to see if there is a smooth or sudden decline. Based on the results of tweaking the parameters however, it seems more likely that SeqSLAM performance is sensitive to having achieved a certain level of matching, and that it will either perform very well or badly, rather than smoothly transition.
 
-The other feature of note in the performance characteristics is the way the F1 score plateaus for translational offsets of less than 1 and orientation changes of 5\degree. When the algorithm performs well, it seems to do so irrespective of the time of day. Strong condition invariance has been noted in previous work as a particular feature of SeqSLAM (citation), so it is good to see it confirmed here. Note however that when the performance falls off, it becomes less condition invariant, falling off further toward sunset and sunrise.
+The other feature of note in the performance characteristics is the way the F1 score plateaus for translational offsets of less than 1 and orientation changes of 5\degree. When the algorithm performs well, it seems to do so irrespective of the time of day. Strong condition invariance has been noted in previous work as a particular feature of SeqSLAM \cite{Milford2012}, so it is good to see it confirmed here. Note however that when the performance falls off, it becomes less condition invariant, falling off further toward sunset and sunrise.
 
 \begin{figure}[t]
     \includegraphics[width=7cm]{SeqSLAM-results-stacked}
@@ -189,7 +189,7 @@ The other feature of note in the performance characteristics is the way the F1 s
 
 \subsection{Place Recognition: OrbSLAM}
 
-The second place recognition algorithm tested was OrbSLAM (citation). OrbSLAM is a feature-based monocular SLAM system, that performs feature-based visual tracking, mapping and loop closure using ORB features.
+The second place recognition algorithm tested was OrbSLAM \cite{Montiel2015}. OrbSLAM is a feature-based monocular SLAM system, that performs feature-based visual tracking, mapping and loop closure using ORB features.
 
 To test OrbSLAM, we again generated a variety of image datasets from the same street scene, with 5 different times of day, a baseline pass and 20 different viewpoint variations. Due to the mapping element of OrbSLAM, all datasets were made to start and end in the same place. To test the performance, each of the datasets was appended to the noon baseline dataset (acting as a reference pass), and we looked for loop closures between the two passes. % TODO: describe the performance metric and add graphs
 
@@ -213,7 +213,7 @@ To test OrbSLAM, we again generated a variety of image datasets from the same st
 
 The detailed analysis we have performed can be used to inform subsequent actions, including parameter tuning. To demonstrate this, we again tested the performance of Sum of Absolute Differences on the noon datasets across the range of lateral offsets shown in Figure \ref{fig:dataset-offset-example} with a variety of different offset window parameters. SeqSLAM uses Sum of Absolute Differences combined with an offset window parameter that shifts the image pixels to achieve a better matching image. The results of this test can be seen in Figure \ref{fig:offset-matching-param-results}.
 
-This data suggests that for distances up to 3.5m offset from the reference location, it is best to use the smaller 4 pixel window range. The use of an offset window shows clear improvement in performance, but larger windows may  introduce false matches. Larger windows may be appropriate to larger offset, and we could easily test this by generating more data and extending the experiment.
+This data suggests that for distances up to 3.5m offset from the reference location, it is best to use the smaller 4 pixel window range. The use of an offset window shows clear improvement in performance, but larger windows may  introduce false matches. Larger windows may be appropriate to larger offset, and if necessary we could easily have tested this by generating more data and extending the experiment.
 
 \begin{figure}[t]
     \includegraphics[width=7cm]{offset-matching-results}
@@ -332,8 +332,8 @@ Appendixes should appear before the acknowledgment.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-%\bibliographystyle{plain}
-%\bibliography{john-bibliography} 
+\bibliographystyle{plain}
+\bibliography{john-bibliography} 
 
 
 
