@@ -80,7 +80,7 @@ To demonstrate the effectiveness of high-fidelity simulation as an analysis tool
 
 The simulation tool used in this paper was the Unreal Engine 4, developed by Epic Games Inc.
 
-All of the test images used were generated from the same street scene, shown in figure \ref{fig:street-scene-overview}. The 3D models used were either sourced for free from TurboSquid (www.turbosquid.com), with significant manual clean up, or were produced manually. The landscape was produced using the basic version of WorldMachine (http://www.world-machine.com). All lighting is as computed by the Unreal Engine, using standard sky and light assets provided with the engine.
+All of the test images used were generated from the same street scene, shown in Figure \ref{fig:street-scene-overview}. The 3D models used were either sourced for free from TurboSquid (www.turbosquid.com), with significant manual clean up, or were produced manually. The landscape was produced using the basic version of WorldMachine (http://www.world-machine.com). All lighting is as computed by the Unreal Engine, using standard sky and light assets provided with the engine.
 
 To generate the image data, the camera was made to move along a specified path and produce images at fixed intervals.
 The simulator allows us to precisely repeat the same path, and introduce calculated and precise variations upon it.
@@ -165,7 +165,7 @@ The other feature of note in the performance characteristics is the way the F1 s
 
 \begin{figure}[t]
     \includegraphics[width=7cm]{SeqSLAM-results-stacked}
-    \caption{SeqSLAM performance over, from top to bottom, lateral offset, vertical orientation change (pitch), and horizontal orientation change (yaw). Each viewpoint change is captured over 5 times of day to show how performance degrades in combination }
+    \caption{SeqSLAM performance over, from top to bottom, lateral offset, vertical orientation change (pitch), and horizontal orientation change (yaw). Each viewpoint change is captured over 5 times of day to show how performance degrades over both viewpoint and condition change}
     \label{fig:seqslam-results-stacked}
 \end{figure}
 
@@ -197,11 +197,11 @@ To test OrbSLAM, we again generated a variety of image datasets from the same st
 
 \begin{figure}[t]
     \includegraphics[width=7cm]{SeqSLAM-results-stacked}
-    \caption{This image is a placeholder for OrbSLAM results }
+    \caption{This image is a place-holder for OrbSLAM results }
     \label{fig:seqslam-results-stacked}
 \end{figure}
 
-\include{./}{object-recognition.tex}
+\import{./}{object-recognition.tex}
 
 \subsection{SeqSLAM parameter tuning}
 
@@ -211,6 +211,8 @@ To test OrbSLAM, we again generated a variety of image datasets from the same st
     \item In a given situation, we can therefore look up the performance characteristics for different parameter values and make an informed choice about how to configure the algorithm.
 \end{itemize}
 
+
+
 \begin{figure}[t]
     \includegraphics[width=7cm]{offset-matching-results}
     \caption{Sum of Absolute Difference matching rate as the maximum offset window is increased. This result helps us choose a maximum offset appropriate for a given lateral offset}
@@ -219,10 +221,9 @@ To test OrbSLAM, we again generated a variety of image datasets from the same st
 
 \subsection{Comparison to real-world}
 
-\begin{itemize}
-    \item To demonstrate that simulated performance matches the behaviour of real-world performance, we compared 5 passes down a real street to a 5 passes down a simulated street with a similar structure.
-    \item 
-\end{itemize}
+It is important to verify that performance change in simulation is representative of performance change in the real world. To test this, we compared performance drop over lateral viewpoint change using SeqSLAM for data from a real street and for data generated from a simulation of a similar street. The results can be seen in Figure \ref{fig:real-world-results}.
+
+Unsurprisingly, observed performance is consistently better in simulation; we ascribe this to a lack of sufficient realism in the simulation, which was built simply and quickly. However, the performance follows the same trends in both environments, falling off smoothly as the offset difference increases. This demonstrates that performance results obtained in simulation obey similar trends to data obtained from even simplistic simulations.
 
 \begin{figure}[t]
     \includegraphics[width=7cm]{real-world-results}
