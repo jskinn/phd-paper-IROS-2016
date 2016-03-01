@@ -31,12 +31,16 @@ High-Fidelity Simulation for Robotic Vision Research
 }
 
 
-\author{John Skinner$^{1}$% <-this % stops a space
-\thanks{$^{1}$John Skinner is with Australian Centre for Robotic Vision,
+\author{John Skinner$^{1}$, Sourav Garg$^{1}$, Niko Sunderhauf$^{1}$, Peter Corke$^{1}$, Ben Upcroft$^{1}$, Michael Milford$^{1}$% <-this % stops a space
+\thanks{$^{1}$ Australian Centre for Robotic Vision,
         Queensland University of Technology,
-        2 George St, Brisbane, Australia
-        {\tt\small jr.skinner@hdr.qut.edu.au}}%
-        %TODO: work out other authors, probably at least michael and sourav
+        2 George St, Brisbane, Australia}%
+%        {\tt\small jr.skinner@hdr.qut.edu.au}
+%        {\tt\small sourav.garg@hdr.qut.edu.au}
+%        {\tt\small niko.suenderhauf@qut.edu.au}
+%        {\tt\small peter.corke@qut.edu.au}
+%        {\tt\small ben.upcroft@qut.edu.au}
+%        {\tt\small michael.milford@qut.edu.au}
 }
 
 
@@ -128,7 +132,7 @@ Figure \ref{fig:sad-results-stacked} shows that SAD-based matching seems to be r
 
 Interestingly, matching rate falls off similarly with angle change irrespective of the direction of change (compare the lower two plots in Figure \ref{fig:sad-results-stacked}). Matching performance seems to follow an exponential decay with angle, but additional sampling would need to be performed to verify that hypothesis. It may also be worth investigating the effects of multiple orientation offsets combined together to see how they compound. Were it the aim of this paper, it would be relatively simple to generate additional required sample passes to properly evaluate, but it is beyond the current scope.
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \includegraphics[width=7cm]{SAD-results-stacked}
     \caption{Match percentage for Sum of Absolute Differences for, from top to bottom, lateral offset, vertical orientation change (pitch), and lateral orientation change (yaw). Each offset was tested across several times of day.}
     \label{fig:sad-results-stacked}
@@ -191,29 +195,36 @@ The other feature of note in the performance characteristics is the way the F1 s
 
 The second place recognition algorithm tested was OrbSLAM \cite{Montiel2015}. OrbSLAM is a feature-based monocular SLAM system, that performs feature-based visual tracking, mapping and loop closure using ORB features.
 
-To test OrbSLAM, we again generated a variety of image datasets from the same street scene, with 5 different times of day, a baseline pass and 20 different viewpoint variations. Due to the mapping element of OrbSLAM, all datasets were made to start and end in the same place. To test the performance, each of the datasets was appended to the noon baseline dataset (acting as a reference pass), and we looked for loop closures between the two passes. Results are summarised in Figure \ref{fig:orbslam-results-offset}, Figure \ref{fig:orbslam-results-pitch}, and Figure \ref{fig:orbslam-results-yaw}.
+To test OrbSLAM, we again generated a variety of image datasets from the same street scene, with 5 different times of day, a baseline pass and 20 different viewpoint variations. Due to the mapping element of OrbSLAM, all datasets were made to start and end in the same place. To test the performance, each of the datasets was appended to the noon baseline dataset (acting as a reference pass), and we looked for loop closures between the two passes. Results are summarised in Figure \ref{fig:orbslam-results-stacked}.
 
-% TODO: Write the rest of this one I get OrbSLAM results
 
-\begin{figure}[t]
-    \includegraphics[width=8cm]{orbslam-offset-results}
-    \caption{OrbSLAM average trajectory error over both time of day and lateral offset change}
-    \label{fig:orbslam-results-offset}
+
+\begin{figure}[ht]
+    \includegraphics[width=7cm]{orbslam-results-stacked}
+   \caption{OrbSLAM average trajectory error over, from top to bottom, lateral offset, vertical orientation change (pitch), and horizontal orientation change (yaw). Each viewpoint change is captured for 5 different times of day.}
+    \label{fig:orbslam-results-stacked}
 \end{figure}
 
-\begin{figure}[t]
-    \includegraphics[width=8cm]{orbslam-pitch-results}
-    \caption{OrbSLAM average trajectory error over both time of day and lateral offset change}
-    \label{fig:orbslam-results-pitch}
-\end{figure}
+%\begin{figure}[t]
+%    \includegraphics[width=8cm]{orbslam-results-stacked}
+%    \caption{OrbSLAM average trajectory error over both time of day and lateral offset change}
+%    \label{fig:orbslam-results-offset}
+%\end{figure}
+%
+%\begin{figure}[t]
+%    \includegraphics[width=8cm]{orbslam-pitch-results}
+%    \caption{OrbSLAM average trajectory error over both time of day and lateral offset change}
+%    \label{fig:orbslam-results-pitch}
+%\end{figure}
+%
+%\begin{figure}[t]
+%    \includegraphics[width=8cm]{orbslam-yaw-results}
+%    \caption{OrbSLAM average trajectory error over both time of day and lateral offset change}
+%    \label{fig:orbslam-results-yaw}
+%\end{figure}
 
-\begin{figure}[t]
-    \includegraphics[width=8cm]{orbslam-yaw-results}
-    \caption{OrbSLAM average trajectory error over both time of day and lateral offset change}
-    \label{fig:orbslam-results-yaw}
-\end{figure}
-
-\import{./}{object-recognition.tex}
+% Niko, uncomment this when/if you get the object recognition stuff done.
+%\import{./}{object-recognition.tex}
 
 \subsection{SeqSLAM parameter tuning}
 
