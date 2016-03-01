@@ -254,7 +254,7 @@ Unsurprisingly, observed performance is consistently better in simulation; we as
 %    \end{itemize}
 %\end{enumerate}
 
-\section{STRENGTHS AND IDENTIFIED LIMITATIONS}
+\section{DISCUSSION}
 
 The most difficult and time consuming aspect of using high-fidelity simulation is creating the scene in the first place. Scenes are built of 3d models and textures, which are first time consuming to create, and then take even more time to arrange in the scene. The more realistic a scene is required to be, the longer both of these stages take. The creation of high quality 3D models and scenes is the speciality of a professional 3D artist, so if a particular problem requires large or realistic scene it may be necessary to hire a 3D artist to construct it. It can also be extremely difficult to maintain a consistent scale throughout the scene. Examination of our scene in Figure \ref{fig:street-scene-overview} will reveal a myriad of scale flaws, note for instance the height of the houses relative to the width of the road.
 
@@ -266,7 +266,7 @@ Rather than sampling densely with a large initial dataset, we recommend initial 
 
 It is also important to note that the difficulty of a particular change to the simulation can be non-intuitive. For instance, it is very easy in the simulation to change the location or orientation of an object or the camera; or to change the base colour of a flat-coloured object. For this reason, it was very easy for us to add additional variations on the camera path, since this simply changes the camera's location and orientation. On the other hand, changing the lighting is simple manually, but for good quality lighting a lot of data needs to be recalculated, which takes a lot of time and is not designed to be triggered programatically. As such, it takes longer to generate data across different times of day, and it would be more time-consuming for us to test at an additional time of day.
 
-\section{FUTURE WORK}
+\subsection{Future Work}
 
 There remains a significant amount of applications that we have not yet explored. At this time, we have not successfully tested interaction between robot control code and high-fidelity simulation, further work is required on the code interfaces that make this possible. With further investigation, it should be possible to create full simulators for computer vision code including control code that interacts with the simulated world. This opens up the advantages of high-fidelity simulation to all computer vision algorithms, rather than only to passive algorithms.
 
