@@ -27,7 +27,7 @@
 \graphicspath{ {images/} }
 
 \title{\LARGE \bf
-High-Fidelity Simulation for Robotic Vision Research
+High-Fidelity Simulation for Evaluating Robotic Vision Performance
 }
 
 
@@ -266,13 +266,31 @@ Rather than sampling densely with a large initial dataset, we recommend initial 
 
 It is also important to note that the difficulty of a particular change to the simulation can be non-intuitive. For instance, it is very easy in the simulation to change the location or orientation of an object or the camera; or to change the base colour of a flat-coloured object. For this reason, it was very easy for us to add additional variations on the camera path, since this simply changes the camera's location and orientation. On the other hand, changing the lighting is simple manually, but for good quality lighting a lot of data needs to be recalculated, which takes a lot of time and is not designed to be triggered programatically. As such, it takes longer to generate data across different times of day, and it would be more time-consuming for us to test at an additional time of day.
 
-\section{FUTURE WORK}
+\section{CONCLUSIONS AND FUTURE WORK}
 
-There remains a significant amount of applications that we have not yet explored. At this time, we have not successfully tested interaction between robot control code and high-fidelity simulation, further work is required on the code interfaces that make this possible. With further investigation, it should be possible to create full simulators for computer vision code including control code that interacts with the simulated world. This opens up the advantages of high-fidelity simulation to all computer vision algorithms, rather than only to passive algorithms.
+In this paper we investigated the use of photo-realistic gaming engine simulation tool to address important challenges in robotic vision: that
+experiments cannot  be repeated, that algorithms cannot be quantitatively compared, and that for object recognition the lack of labelled training and test
+is a bottleneck for training deep networks.
+The simulation allows us to create high realistic images from an arbitrary camera or cameras in a complex 3-dimensional world in which lighting and atmospheric
+conditions can be set at will.
+We  showed how we can systematically evaluate some standard robotic vision algorithms (robust place recognition and visual SLAM) in ways which have not
+been previously possible.  These algorithms are broadly representive of the classes of image-based and feature-based methods.
+We  also showed how we can synthetically generate a large number of images to train a deep network for object recognition, and evaluated that network
+for real images of the objects concerned.
 
-This paper has focused on using simulation to test and analyse computer vision algorithms, but the generation of image data can also be used to train learning algorithms, such as deep-learning neural nets. Interestingly, it should be possible to apply the iterative testing approach outlined here to network training, alternating between generating new test data to fill holes in the performance graph and generating new training data to correct areas of poor performance, with a reduced risk of over-training.
+We have only just begun to scratch the surface of this new approach to robotic vision.
+So far our paths through the environment are set manually rather than being driven by a robotic vision algorithm.
+Integrating the game engine into the ROS environment would simplify this, allowing us to run a robotic vision algorithm in a manner analagous to a 
+hardware-in-the-loop simulator, its output commands the camera pose in the simulator and the rendered image becomes its input.
+The fidelity of the simulation approach needs to be tested on a wider variety of common vision algorithms.
+Creating complex 3D worlds is time consuming and we are investigating modern 3D reconstruction techniques to create a first draft of a simulated world. It should also be possible to procedurally generate many parts of the environment, establishing rules for the generation of roads, cities, and other environments allowing variations to be produced quickly. Finally, many assets need only be created once, and a wider community using simulation and sharing work should reduce the initial costs of setting up a simulation.
 
-The key problem with using high-fidelity simulation is that generating simulation environments is too costly. There are a number of different ways that this can be made easier. Firstly, it is often desirable for simulation environments to mirror a real-world environment in some way, and so it should be possible to use modern 3D reconstruction techniques to lay the groundwork for a simulation environment. It should also be possible to procedurally generate more about the environment, establishing rules for the generation of roads, cities, and other environments allowing variations to be produced quickly. Finally, many assets need only be created, and a wider community using simulation and sharing work should reduce the initial costs of setting up a simulation.
+%from camera to simulation
+%There remains a significant amount of applications that we have not yet explored. At this time, we have not successfully tested interaction between robot control code and high-fidelity simulation, further work is required on the code interfaces that make this possible. With further investigation, it should be possible to create full simulators for computer vision code including control code that interacts with the simulated world. This opens up the advantages of high-fidelity simulation to all computer vision algorithms, rather than only to passive algorithms.
+%
+%This paper has focused on using simulation to test and analyse computer vision algorithms, but the generation of image data can also be used to train learning algorithms, such as deep-learning neural nets. Interestingly, it should be possible to apply the iterative testing approach outlined here to network training, alternating between generating new test data to fill holes in the performance graph and generating new training data to correct areas of poor performance, with a reduced risk of over-training.
+%%
+%The key problem with using high-fidelity simulation is that generating simulation environments is too costly. There are a number of different ways that this can be made easier. Firstly, it is often desirable for simulation environments to mirror a real-world environment in some way, and so it should be possible to use modern 3D reconstruction techniques to lay the groundwork for a simulation environment. It should also be possible to procedurally generate more about the environment, establishing rules for the generation of roads, cities, and other environments allowing variations to be produced quickly. Finally, many assets need only be created, and a wider community using simulation and sharing work should reduce the initial costs of setting up a simulation.
 
 \addtolength{\textheight}{-12cm}   % This command serves to balance the column lengths
                                   % on the last page of the document manually. It shortens
