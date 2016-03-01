@@ -1,0 +1,337 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%2345678901234567890123456789012345678901234567890123456789012345678901234567890
+%        1         2         3         4         5         6         7         8
+
+\documentclass[letterpaper, 10 pt, conference]{ieeeconf}  % Comment this line out if you need a4paper
+
+%\documentclass[a4paper, 10pt, conference]{ieeeconf}      % Use this line for a4 paper
+
+\IEEEoverridecommandlockouts                              % This command is only needed if 
+                                                          % you want to use the \thanks command
+
+\overrideIEEEmargins                                      % Needed to meet printer requirements.
+
+% See the \addtolength command later in the file to balance the column lengths
+% on the last page of the document
+
+% The following packages can be found on http:\\www.ctan.org
+%\usepackage{graphics} % for pdf, bitmapped graphics files
+%\usepackage{epsfig} % for postscript graphics files
+%\usepackage{mathptmx} % assumes new font selection scheme installed
+%\usepackage{times} % assumes new font selection scheme installed
+%\usepackage{amsmath} % assumes amsmath package installed
+%\usepackage{amssymb}  % assumes amsmath package installed
+\usepackage{gensymb}
+\usepackage{graphicx}
+\usepackage{import}
+\graphicspath{ {images/} }
+
+\title{\LARGE \bf
+Applications of High-fidelity simulation to Computer Vision
+}
+
+
+\author{John Skinner$^{1}$% <-this % stops a space
+\thanks{$^{1}$John Skinner is with Australian Centre for Robotic Vision,
+        Queensland University of Technology,
+        2 George St, Brisbane, Australia
+        {\tt\small jr.skinner@hdr.qut.edu.au}}%
+        %TODO: work out other authors, probably at least michael and sourav
+}
+
+
+\begin{document}
+
+
+
+\maketitle
+\thispagestyle{empty}
+\pagestyle{empty}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{abstract}
+
+\import{./}{abstract.tex}
+
+\end{abstract}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{INTRODUCTION}
+
+\import{./}{introduction.tex}
+
+\section{PRIOR RESEARCH}
+
+\import{./}{prior-research.tex}
+
+\section{ANALYSIS OF PLACE RECOGNITION}
+
+To demonstrate the effectiveness of high-fidelity simulation as an analysis tool for computer vision, we performed an in depth analysis of the viewpoint and time-of-day invariance of two different state-of-the-art place recognition algorithms, SeqSLAM (citation) and OrbSLAM (citation). Then, to demonstrate the versatility of we performed an analysis of the viewpoint dependence of object recognition.
+
+\subsection{Simulation Setup: Unreal Engine 4}
+
+\begin{figure*}[t]
+    \includegraphics[width=16cm]{street-scene-overview}
+    \caption{The street scene used to capture the image datasets that were used for testing the place recognition algorithms. The white line shows the baseline path followed by the camera when generating the datasets to test Sum of Absolute Differences matching and SeqSLAM. OrbSLAM test datasets follow a slightly different path so that they can loop their way around and end where they started.}
+    \label{fig:street-scene-overview}
+\end{figure*}
+
+The simulation tool used in this paper was the Unreal Engine 4, developed by Epic Games Inc.
+
+All of the test images used were generated from the same street scene, shown in figure \ref{fig:street-scene-overview}. The 3D models used were either sourced for free from TurboSquid (www.turbosquid.com), with significant manual clean up, or were produced manually. The landscape was produced using the basic version of WorldMachine (http://www.world-machine.com). All lighting is as computed by the Unreal Engine, using standard sky and light assets provided with the engine.
+
+To generate the image data, the camera was made to move along a specified path and produce images at fixed intervals.
+The simulator allows us to precisely repeat the same path, and introduce calculated and precise variations upon it.
+In order to explore how the performance of place recognition changes with time of day and viewpoint change, passes along the path were generated for 5 different times of day in combination with increasing lateral offsets or camera tilts (Figure \ref{fig:dataset-example}).
+
+\begin{figure*}[t]
+    \includegraphics[width=16cm]{lateral-offset-comparison}
+    \caption{Sample images used to test lateral offset viewpoint invariance. From left to right, images are offset are left $3.5m$, $2m$, $1m$, $0.4m$, $0.2m$, Then the baseline, then offset right $0.2m$, $0.4m$, $1m$, $2m$, and $3.5m$}
+    \label{fig:dataset-offset-example}
+\end{figure*}
+
+\begin{figure*}[t]
+    \includegraphics[width=16cm]{vertical-orientation-change-comparison}
+    \caption{Sample images used to test orientation viewpoint invariance. From left to right, images are angled are up $30\degree$, $15\degree$, $10\degree$, $5\degree$, Then the baseline, then angled down $5\degree$, $10\degree$, $15\degree$, and $30\degree$}
+    \label{fig:dataset-pitch-example}
+\end{figure*}
+
+\begin{figure*}[t]
+    \includegraphics[width=16cm]{horizontal-orientation-change-comparison}
+    \caption{Sample images used to test orientation viewpoint invariance. From left to right, images are angled are left $30\degree$, $15\degree$, $10\degree$, $5\degree$, Then the baseline, then angled right$5\degree$, $10\degree$, $15\degree$, and $30\degree$}
+    \label{fig:dataset-yaw-example}
+\end{figure*}
+
+\begin{figure*}[t]
+    \includegraphics[width=16cm]{time-of-day-comparison}
+    \caption{Sample images used to test condition invariance. From left to right, images are taken at dawn, in the morning, at noon, in the afternoon, and at sunset}
+    \label{fig:dataset-time-of-day-example}
+\end{figure*}
+
+\begin{figure}[t]
+    \includegraphics[width=8cm]{dataset-image-variety-grid}
+    \caption{Sample images from the datasets used, all images are taken from the same place at different times of day and viewpoint variations. From left to right, viewpoints are the base unmodified path, offset left $2m$, offset right $2m$, angled up $30\degree$, and angled right $30\degree$}
+    \label{fig:dataset-example}
+\end{figure}
+
+\subsection{Place Recognition: Sum of Absolute Differences}
+
+The first test we did was on simple place recognition using simple sum-of-absolute-differences (SAD) based image matching. While this is neither state-of-the-art nor particularly effective, sum-of-absolute-differences is a common metric which is used in many computer vision algorithms, including SeqSLAM discussed below. As such, an analysis of it's performance characteristics is potentially interesting.
+
+Before matching, each image is down-sampled to 64x64 pixels and reduced to greyscale, in order to save computation time. The matcher used compares each image in a query dataset to each of those in a reference dataset, and considers the reference image with the lowest sum of absolute difference to be a match. The performance is then the percentage of images for which the matched reference image is taken from a place close to the query image.
+
+The matcher is tested using 130 different combinations of time of day and viewpoint changes, so that we can see how the performance falls off as both increase. The results are summarized in Figure \ref{fig:sad-results-stacked}.
+
+Figure \ref{fig:sad-results-stacked} shows that SAD-based matching seems to be relatively robust against small lateral offsets, falling of after approximately $2m$. There is similar falloff as time of day approaches sunrise or sunset, and seems to be relatively symmetrical. The small number of samples makes this change seem relatively smooth, but it also seems plausible that it may instead change rapidly around dawn and sunset when the lighting change has the most effect. Resolving this is simply a matter of sampling the distribution further.
+
+Interestingly, matching rate falls off similarly with angle change irrespective of the direction of change (compare the lower two plots in Figure \ref{fig:sad-results-stacked}). Matching performance seems to follow an exponential decay with angle, but additional sampling would need to be performed to verify that hypothesis. It may also be worth investigating the effects of multiple orientation offsets combined together to see how they compound. Were it the aim of this paper, it would be relatively simple to generate additional required sample passes to properly evaluate, but it is beyond the current scope.
+
+\begin{figure}[h]
+    \includegraphics[width=7cm]{SAD-results-stacked}
+    \caption{Match percentage for Sum of Absolute Differences for, from top to bottom, lateral offset, vertical orientation change (pitch), and lateral orientation change (yaw). Each offset was tested across several times of day.}
+    \label{fig:sad-results-stacked}
+\end{figure}
+
+%\begin{figure}[h]
+%    \includegraphics[width=8cm]{SAD-matching-performance-over-lateral-offset-and-time-of-day}
+%    \caption{Sum of absolute difference matching over both time of day and lateral offset change.}
+%    \label{fig:sad-results-stacked}
+%\end{figure}
+
+%\begin{figure}[h]
+%    \includegraphics[width=8cm]{SAD-matching-performance-over-vertical-orientation-change-and-time-of-day}
+%    \caption{Sum of absolute difference match rate over both time of day and vertical orientation change}
+%    \label{fig:sad-results-pitch}
+%\end{figure}
+
+%\begin{figure}[h]
+%    \includegraphics[width=8cm]{SAD-matching-performance-over-lateral-orientation-change-and-time-of-day}
+%    \caption{Sum of absolute difference match rate over both time of day and lateral offset change}
+%    \label{fig:sad-results-yaw}
+%\end{figure}
+
+\subsection{Place Recognition: SeqSLAM}
+
+The first full place recognition algorithm we investigated was SeqSLAM, first described by Milford and Wyeth (Milford \& Wyeth, 2012) (TODO: Check citation and the SeqSLAM version Sourav is using). SeqSLAM is a place recognition algorithm that searches for loop closures by attempting to match sequences of similar images. It measures image similarity using sum of absolute differences as analysed in the previous section.
+
+To perform the test, we generated 130 passes across 5 times of day and 26 different viewpoint variations from the street scene used in the other tests (figure \ref{fig:dataset-example}. We chose the baseline pass at noon as the reference dataset, and compared it to all 130 of the other datasets (including itself). For each dataset we calculated the maximum F1 score, the results are summarized in Figure \ref{fig:seqslam-results-stacked}.
+
+% TODO: This discussion changes depending on how the anomalous values shake out as errors or as corretct. May wind up with more simulation passes.
+The first immediately obvious result is the anomalous low performance values for a left $0.2m$ offset in the morning and at sunset, and the low performance across all times of day at a 10\degree vertical orientation change.  All of these changes are sudden and extreme, so the initial inclination is to sample around these points to see if there is a smooth or sudden decline. Based on the results of tweaking the parameters however, it seems more likely that SeqSLAM performance is sensitive to having achieved a certain level of matching, and that it will either perform very well or badly, rather than smoothly transition.
+
+The other feature of note in the performance characteristics is the way the F1 score plateaus for translational offsets of less than 1 and orientation changes of 5\degree. When the algorithm performs well, it seems to do so irrespective of the time of day. Strong condition invariance has been noted in previous work as a particular feature of SeqSLAM (citation), so it is good to see it confirmed here. Note however that when the performance falls off, it becomes less condition invariant, falling off further toward sunset and sunrise.
+
+\begin{figure}[t]
+    \includegraphics[width=7cm]{SeqSLAM-results-stacked}
+    \caption{SeqSLAM performance over, from top to bottom, lateral offset, vertical orientation change (pitch), and horizontal orientation change (yaw). Each viewpoint change is captured over 5 times of day to show how performance degrades in combination }
+    \label{fig:seqslam-results-stacked}
+\end{figure}
+
+%\begin{figure}[t]
+%    \includegraphics[width=8cm]{SeqSLAM-results-offset}
+%    \caption{SeqSLAM fscore over both time of day and lateral offset change}
+%    \label{fig:seqslam-results-offset}
+%\end{figure}
+
+%\begin{figure}[t]
+%    \includegraphics[width=8cm]{SeqSLAM-results-pitch}
+%    \caption{SeqSLAM fscore over both time of day and lateral offset change}
+%    \label{fig:seqslam-results-pitch}
+%\end{figure}
+
+%\begin{figure}[t]
+%    \includegraphics[width=8cm]{SeqSLAM-results-yaw}
+%    \caption{SeqSLAM fscore over both time of day and lateral offset change}
+%    \label{fig:seqslam-results-yaw}
+%\end{figure}
+
+\subsection{Place Recognition: OrbSLAM}
+
+The second place recognition algorithm tested was OrbSLAM (citation). OrbSLAM is a feature-based monocular SLAM system, that performs feature-based visual tracking, mapping and loop closure using ORB features.
+
+To test OrbSLAM, we again generated a variety of image datasets from the same street scene, with 5 different times of day, a baseline pass and 20 different viewpoint variations. Due to the mapping element of OrbSLAM, all datasets were made to start and end in the same place. To test the performance, each of the datasets was appended to the noon baseline dataset (acting as a reference pass), and we looked for loop closures between the two passes. % TODO: describe the performance metric and add graphs
+
+% TODO: Write the rest of this one I get OrbSLAM results
+
+\begin{figure}[t]
+    \includegraphics[width=7cm]{SeqSLAM-results-stacked}
+    \caption{This image is a placeholder for OrbSLAM results }
+    \label{fig:seqslam-results-stacked}
+\end{figure}
+
+\include{./}{object-recognition.tex}
+
+\subsection{SeqSLAM parameter tuning}
+
+\begin{itemize}
+    \item SeqSLAM uses SAD matching with an offset window parameter to shift prospective images against each other
+    \item We can tune the choice of this parameter by testing the performance in a variety of different situations and with different parameter values
+    \item In a given situation, we can therefore look up the performance characteristics for different parameter values and make an informed choice about how to configure the algorithm.
+\end{itemize}
+
+\begin{figure}[t]
+    \includegraphics[width=7cm]{offset-matching-results}
+    \caption{Sum of Absolute Difference matching rate as the maximum offset window is increased. This result helps us choose a maximum offset appropriate for a given lateral offset}
+    \label{fig:offset-matching-param-results}
+\end{figure}
+
+\subsection{Comparison to real-world}
+
+\begin{itemize}
+    \item To demonstrate that simulated performance matches the behaviour of real-world performance, we compared 5 passes down a real street to a 5 passes down a simulated street with a similar structure.
+    \item 
+\end{itemize}
+
+\begin{figure}[t]
+    \includegraphics[width=7cm]{real-world-results}
+    \caption{Comparison of SeqSLAM performance falloff between simulated and real-world environments as lateral offset increases. As is often the case, simulated performance is better in an absolute sense, but the trend is the same in both cases.}
+    \label{fig:real-world-results}
+\end{figure}
+
+%\section{RESULTS}
+
+% TODO: I don't think this section exists explicitly, I'm keeping it for notes
+%contributions streams throughout the paper
+
+%\begin{enumerate}
+%    \item simulation as a useful tool
+%    \item closing the loop - redoing based on automated triggers (not enough resolution)
+%    \item methods for comparing different algorithms - given this tool, how compare, and what actions to take
+%    \item ideal - some demonstrations of how to take action based on results of simulation
+%    \begin{itemize}
+%        \item Make some simple suggestions here, such as determining what ratio of training images are needed 
+%    \end{itemize}
+%\end{enumerate}
+
+\section{STRENGTHS AND IDENTIFIED LIMITATIONS}
+
+Advantages
+\begin{itemize}
+    \item Once you have a simulation, given enough time you can generate arbitrary amounts of image data.
+    \item Repeatability, It is possible to capture the same image sequence and repeat the same tests in the same circumstances over and over again, even including dynamic scene elements or elements that respond to the action of the
+    \item Data interpolation for near-infinite variety
+    \begin{itemize}
+        \item If an algorithm struggles with data of a certain type of variety
+        \item I think this is one of the strongest advantages
+    \end{itemize}
+    \item Simple, comprehensive ground truth
+\end{itemize}
+
+Disadvantages
+\begin{itemize}
+    \item Can take a long time to generate datasets
+    \begin{itemize}
+        \item Running in the background, we produced about 6 new images per second
+        \item When working with continuously variable positions, such as when collecting data for position invariant place recognition, it is often trivially possible to combinatorially expand the number of output images, leading to over-large datasets that take a long time to generate and process. Since generating additional sample points can be very easy, care must be taken to keep the number of sample points generated within the time limitations of the project.
+    \end{itemize}
+    \item Simulations are not free or resource-cheap
+    \begin{itemize}
+        \item Developing realistic simulations takes time, and requires quality 3D models and textures, which must either be bought or commissioned from a professional artist
+        \item Simulation fidelity is a near-endless resource sink
+    \end{itemize}
+\end{itemize}
+
+Difficulties (things that are hard, but not actual disadvantages)
+\begin{itemize}
+    \item It can be hard to maintain scale between different scene elements
+    \item Creating or sourcing meshes, models and textures from which to build the simulation is expensive and time-consuming
+    \item Precomputation is a strong feature of the engine, particularly in lighting. At this time, redoing this precomputation is a manual process, such that whenever the lighting in the scene is significantly changed, the developer must manually trigger the recomputaton. While this is an understandable optimization given that lighting computations are complex and expensive, it makes it into a more manual process to construct datasets across different lighting conditions.
+\end{itemize}
+
+The most difficult and time consuming aspect of using high-fidelity simulation is creating the scene in the first place. Scenes are built of 3d models and textures, which are first time consuming to create, and then take even more time to arrange in the scene. The more realistic a scene is required to be, the longer both of these stages take. The creation of high quality 3D models and scenes is the speciality of a professional 3D artist, so if a particular problem requires large or realistic scene it may be necessary to hire a 3D artist to construct it. It can also be extremely difficult to maintain a consistent scale throughout the scene. Examination of our scene in Figure \ref{fig:street-scene-overview} will reveal a myriad of scale flaws, note for instance the height of the houses relative to the width of the road.
+
+However, once a particular simulation has been created, it can be used to generate arbitrary amounts of image data. Once we had constructed the street scene and the tools set up, actually capturing each dataset can be specified programatically and takes relatively little time. Indeed, when we initially created the  datasets used to test the place recognition algorithms above, we tested orientation change at $30\degree$ and $15\degree$ only. However, after observing the way matching performance falls off with angle in Figure \ref{fig:sad-results-stacked}, we were able to very easily add tests for $5\degree$ and $10\degree$ orientation changes as well. The very fact that we can exactly repeat a movement through a scene with a precise orientation change is a powerful advantage of high-fidelity simulation.
+
+It can in some sense be too easy to capture data. Since capturing additional data is often simply a matter of adding a new modifier to a path, increasing a sample range or decreasing a sample increment, it can be very easy to generate too much data. For instance, it may be tempting to sample a street scene such as ours at every offset up to 4m either side in 1m increments, and at each location take all vertical and horizontal changes up to $30\degree$ in $5\degree$ intervals. This is relatively simple to specify, but when multiplied out, produces $9 \times 13 \times 13 = 1521$ images per forward step down the path. The path we used with a step distance of 1m as well requires 612 forward steps, for a total therefore of 1965132 images. When capturing datasets ourselves, we averaged about 6 frames per second, so collecting all this data would take approximately 91 hours. It's easy to see how tweaking any of the specified numbers could multiply this number even further.
+
+Rather than sampling densely with a large initial dataset, we recommend initial testing be done relatively sparsely over the test domain, and then using the initial results to choose a second round of test values. For instance, given the distribution for vertical orientation change in Figure \ref{fig:sad-results-stacked}, it makes more sense to generate new test data at $2.5\degree$ and at $7.5\degree$ than at $25\degree$. In the future, it should be possible to automate this iterative testing, automatically choosing new test datasets based on the results of previous testing.
+
+It is also important to note that the difficulty of a particular change to the simulation can be non-intuitive. For instance, it is very easy in the simulation to change the location or orientation of an object or the camera; or to change the base colour of a flat-coloured object. For this reason, it was very easy for us to add additional variations on the camera path, since this simply changes the camera's location and orientation. On the other hand, changing the lighting is simple manually, but for good quality lighting a lot of data needs to be recalculated, which takes a lot of time and is not designed to be triggered programatically. As such, it takes longer to generate data across different times of day, and it would be more time-consuming for us to test at an additional time of day.
+
+\section{FUTURE WORK}
+
+There remains a significant amount of applications that we have not yet explored. At this time, we have not successfully tested interaction between robot control code and high-fidelity simulation, further work is required on the code interfaces that make this possible. With further investigation, it should be possible to create full simulators for computer vision code including control code that interacts with the simulated world. This opens up the advantages of high-fidelity simulation to all computer vision algorithms, rather than only to passive algorithms.
+
+This paper has focused on using simulation to test and analyse computer vision algorithms, but the generation of image data can also be used to train learning algorithms, such as deep-learning neural nets. Interestingly, it should be possible to apply the iterative testing approach outlined here to network training, alternating between generating new test data to fill holes in the performance graph and generating new training data to correct areas of poor performance, with a reduced risk of over-training.
+
+The key problem with using high-fidelity simulation is that generating simulation environments is too costly. There are a number of different ways that this can be made easier. Firstly, it is often desirable for simulation environments to mirror a real-world environment in some way, and so it should be possible to use modern 3D reconstruction techniques to lay the groundwork for a simulation environment. It should also be possible to procedurally generate more about the environment, establishing rules for the generation of roads, cities, and other environments allowing variations to be produced quickly. Finally, many assets need only be created, and a wider community using simulation and sharing work should reduce the initial costs of setting up a simulation.
+
+\addtolength{\textheight}{-12cm}   % This command serves to balance the column lengths
+                                  % on the last page of the document manually. It shortens
+                                  % the textheight of the last page by a suitable amount.
+                                  % This command does not take effect until the next page
+                                  % so it should come on the page before the last. Make
+                                  % sure that you do not shorten the textheight too much.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{APPENDIX}
+
+Appendixes should appear before the acknowledgment.
+
+\section*{ACKNOWLEDGMENT}
+
+% Who should I thank here? The institute? thanking a co-author doesn't seem right. Epic Games, since it's their program I'm using?
+
+% The preferred spelling of the word "acknowledgment" in America is without an "e" after the "g". Avoid the stilted expression, "One of us (R. B. G.) thanks . . ."  Instead, try "R. B. G. thanks". Put sponsor acknowledgments in the unnumbered footnote on the first page.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%\bibliographystyle{plain}
+%\bibliography{john-bibliography} 
+
+
+
+\end{document}

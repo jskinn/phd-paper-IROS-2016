@@ -1,0 +1,58 @@
+% !TEX root = root.tex
+
+\subsection{Simulation}
+
+The use of simulation in robotics is not a new idea.
+Popular robot simulators such as Gazebo (citation) and Player/Stage (Citation) have existed for many years, and are commonly used to test robot motion and control. The use of game engines for robot simulation is also not new, with the USARsim project based on the Unreal Tournament 3 engine (citation needed), and other projects using the Unity engine (Citation needed).
+
+Simulation has not seen  much application in the field of Computer Vision, which prefers in general to work from image datasets captured from the real world. It is beyond the scope 
+
+However, historically simulation has not been capable of sufficient visual fidelity to mimic the real world to a quality needed for computer vision (citation needed). However, simulation quality has improved over time, and it is now possible to 
+
+Simulation has seen some wide use in the more general field of robotics, but applications have been limited in computer vision
+
+\begin{itemize}
+\item Robotics has been using game engines for a long time, particularly the unreal series
+	\begin{itemize}
+	\item USARsim was a big deal, but has some limitations that mean that people are switching away from it.
+	\item Focus on physics and collision systems for dynamic robots and collision detection, little to no mention of cameras or vision
+	\item Little to no use of modern game engines, no Cry Engine, no Unreal Engine 4, only a little bit of Unity
+	\begin{itemize}
+	    \item The limitation seems to be a restriction to free engines
+	\end{itemize}
+	\item Not really used for computer vision applications - beyond scope to speculate as to why.
+	\item This seems to be an area in which interest has declined over time
+	\end{itemize}
+
+\item Modern improvements in simulation fidelity and ease of access
+	\begin{itemize}
+	\item Lighting tools in Unreal 4 (2013 siggraph presentation
+	)
+	\item Realistic materials in Unreal 4 (also 2013 siggraph presentation)
+	\item Visual scripting in unreal 4 as an ease-of-access tool?
+	\item GPU-accelerated physics for larger, more complex environments
+	\item 
+	\item Unreal engine 4 is now free with full C++ source access, in contrast to USARsim which had to work through UnrealScript and was very limiting.
+	\end{itemize}
+\item Beyond the scope of this paper to summarize all the improvements made to 3D rendering tools over the last 10 years (is it? is it worth including?)
+	\begin{itemize}
+	\item The technology behind Unreal is developed by Epic and NVidia on the cutting edge of 3D rendering techniques, in contrast to Gazebo, which has very simple 3D drawing capabilities
+	\end{itemize}
+\end{itemize}
+
+the advent of modern game engines brings photo-real lighting and modelling within reach for lab-built simulations
+
+\subsection{Place Recognition}
+
+\begin{itemize}
+    \item Sequence SLAM
+    \begin{itemize}
+        \item Developed by Milford and Wyeth... (citation)
+        \item Performs place recognition using 
+    \end{itemize}
+    \item {Challenges}
+        \begin{itemize}
+            \item challenges include viewpoint invariant place recognition, condition invariant place recognition, place recognition in dynamic environments
+            \item 
+        \end{itemize}
+\end{itemize}
