@@ -74,7 +74,7 @@ To demonstrate the effectiveness of high-fidelity simulation as an analysis tool
 
 \begin{figure*}[t]
     \includegraphics[width=16cm]{street-scene-overview}
-    \caption{The street scene used to capture the image datasets that were used for testing the place recognition algorithms. The white line shows the baseline path followed by the camera when generating the datasets to test Sum of Absolute Differences matching and SeqSLAM. OrbSLAM test datasets follow a slightly different path so that they can loop their way around and end where they started.}
+    \caption{The street scene used to capture the image datasets that were used for testing the place recognition algorithms. The line of white dots shows the baseline path followed by the camera when generating the datasets to test Sum of Absolute Differences matching and SeqSLAM. OrbSLAM test datasets follow a slightly different path so that they can loop their way around and end where they started.}
     \label{fig:street-scene-overview}
 \end{figure*}
 
@@ -211,7 +211,9 @@ To test OrbSLAM, we again generated a variety of image datasets from the same st
     \item In a given situation, we can therefore look up the performance characteristics for different parameter values and make an informed choice about how to configure the algorithm.
 \end{itemize}
 
+The detailed analysis we have performed can be used to inform subsequent actions, including parameter tuning. To demonstrate this, we again tested the performance of Sum of Absolute Differences on the noon datasets across the range of lateral offsets shown in Figure \ref{fig:dataset-offset-example} with a variety of different offset window parameters. SeqSLAM uses Sum of Absolute Differences combined with an offset window parameter that shifts the image pixels to achieve a better matching image. The results of this test can be seen in Figure \ref{fig:offset-matching-param-results}.
 
+This data suggests that for distances up to 3.5m offset from the reference location, it is best to use the smaller 4 pixel window range. The use of an offset window shows clear improvement in performance, but larger windows may  introduce false matches. Larger windows may be appropriate to larger offset, and we could easily test this by generating more data and extending the experiment.
 
 \begin{figure}[t]
     \includegraphics[width=7cm]{offset-matching-results}
