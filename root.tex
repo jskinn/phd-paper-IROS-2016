@@ -27,16 +27,20 @@
 \graphicspath{ {images/} }
 
 \title{\LARGE \bf
-High-Fidelity Simulation for Robotic Vision Research
+High-Fidelity Simulation for Evaluating Robotic Vision Performance
 }
 
 
-\author{John Skinner$^{1}$% <-this % stops a space
-\thanks{$^{1}$John Skinner is with Australian Centre for Robotic Vision,
+\author{John Skinner$^{1}$, Sourav Garg$^{1}$, Niko Sunderhauf$^{1}$, Peter Corke$^{1}$, Ben Upcroft$^{1}$, Michael Milford$^{1}$% <-this % stops a space
+\thanks{$^{1}$ Australian Centre for Robotic Vision,
         Queensland University of Technology,
-        2 George St, Brisbane, Australia
-        {\tt\small jr.skinner@hdr.qut.edu.au}}%
-        %TODO: work out other authors, probably at least michael and sourav
+        2 George St, Brisbane, Australia}%
+%        {\tt\small jr.skinner@hdr.qut.edu.au}
+%        {\tt\small sourav.garg@hdr.qut.edu.au}
+%        {\tt\small niko.suenderhauf@qut.edu.au}
+%        {\tt\small peter.corke@qut.edu.au}
+%        {\tt\small ben.upcroft@qut.edu.au}
+%        {\tt\small michael.milford@qut.edu.au}
 }
 
 
@@ -128,7 +132,7 @@ Figure \ref{fig:sad-results-stacked} shows that SAD-based matching seems to be r
 
 Interestingly, matching rate falls off similarly with angle change irrespective of the direction of change (compare the lower two plots in Figure \ref{fig:sad-results-stacked}). Matching performance seems to follow an exponential decay with angle, but additional sampling would need to be performed to verify that hypothesis. It may also be worth investigating the effects of multiple orientation offsets combined together to see how they compound. Were it the aim of this paper, it would be relatively simple to generate additional required sample passes to properly evaluate, but it is beyond the current scope.
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \includegraphics[width=7cm]{SAD-results-stacked}
     \caption{Match percentage for Sum of Absolute Differences for, from top to bottom, lateral offset, vertical orientation change (pitch), and lateral orientation change (yaw). Each offset was tested across several times of day.}
     \label{fig:sad-results-stacked}
@@ -158,10 +162,11 @@ The first full place recognition algorithm we investigated was SeqSLAM, first de
 
 To perform the test, we generated 130 passes across 5 times of day and 26 different viewpoint variations from the street scene used in the other tests (figure \ref{fig:dataset-example}. We chose the baseline pass at noon as the reference dataset, and compared it to all 130 of the other datasets (including itself). For each dataset we calculated the maximum F1 score, the results are summarized in Figure \ref{fig:seqslam-results-stacked}.
 
-% TODO: This discussion changes depending on how the anomalous values shake out as errors or as corretct. May wind up with more simulation passes.
 The first immediately obvious result is the anomalous low performance values for a left 0.2m offset in the morning and at sunset, and the low performance across all times of day at a 10\degree vertical orientation change.  All of these changes are sudden and extreme, so the initial inclination is to sample around these points to see if there is a smooth or sudden decline. Based on the results of tweaking the parameters however, it seems more likely that SeqSLAM performance is sensitive to having achieved a certain level of matching, and that it will either perform very well or badly, rather than smoothly transition.
 
 The other feature of note in the performance characteristics is the way the F1 score plateaus for translational offsets of less than 1 and orientation changes of 5\degree. When the algorithm performs well, it seems to do so irrespective of the time of day. Strong condition invariance has been noted in previous work as a particular feature of SeqSLAM \cite{Milford2012}, so it is good to see it confirmed here. Note however that when the performance falls off, it becomes less condition invariant, falling off further toward sunset and sunrise.
+
+Using high-fidelity simulation has allowed us to explore the behaviour of SeqSLAM more comprehensively than ever before, and has revealed new details of it's behaviour. Further investigation will be required to find the reason for this, which will lead to it becoming more reliable and even more robust.
 
 \begin{figure}[t]
     \includegraphics[width=7cm]{SeqSLAM-results-stacked}
@@ -191,29 +196,36 @@ The other feature of note in the performance characteristics is the way the F1 s
 
 The second place recognition algorithm tested was OrbSLAM \cite{Montiel2015}. OrbSLAM is a feature-based monocular SLAM system, that performs feature-based visual tracking, mapping and loop closure using ORB features.
 
-To test OrbSLAM, we again generated a variety of image datasets from the same street scene, with 5 different times of day, a baseline pass and 20 different viewpoint variations. Due to the mapping element of OrbSLAM, all datasets were made to start and end in the same place. To test the performance, each of the datasets was appended to the noon baseline dataset (acting as a reference pass), and we looked for loop closures between the two passes. Results are summarised in Figure \ref{fig:orbslam-results-offset}, Figure \ref{fig:orbslam-results-pitch}, and Figure \ref{fig:orbslam-results-yaw}.
+To test OrbSLAM, we again generated a variety of image datasets from the same street scene, with 5 different times of day, a baseline pass and 20 different viewpoint variations. Due to the mapping element of OrbSLAM, all datasets were made to start and end in the same place. To test the performance, each of the datasets was appended to the noon baseline dataset (acting as a reference pass), and we looked for loop closures between the two passes. Results are summarised in Figure \ref{fig:orbslam-results-stacked}.
 
-% TODO: Write the rest of this one I get OrbSLAM results
+The observed performance of OrbSLAM is patchy, error seems to range inconsistently, irrespective of the viewpoint or conditions. Even the baseline datasets with no viewpoint change between the passes have trouble sometimes, such as in the morning pass. On the other hand, the performance of the algorithm doesn't seem to depend on viewpoint or time of day at all, but on other factors not controlled in our data. In the end, the inconsistent performance of OrbSLAM under comprehensive testing is a question for the developers.
 
-\begin{figure}[t]
-    \includegraphics[width=8cm]{orbslam-offset-results}
-    \caption{OrbSLAM average trajectory error over both time of day and lateral offset change}
-    \label{fig:orbslam-results-offset}
+\begin{figure}[ht]
+    \includegraphics[width=7cm]{orbslam-results-stacked}
+   \caption{OrbSLAM average trajectory error over, from top to bottom, lateral offset, vertical orientation change (pitch), and horizontal orientation change (yaw). Each viewpoint change is captured for 5 different times of day.}
+    \label{fig:orbslam-results-stacked}
 \end{figure}
 
-\begin{figure}[t]
-    \includegraphics[width=8cm]{orbslam-pitch-results}
-    \caption{OrbSLAM average trajectory error over both time of day and lateral offset change}
-    \label{fig:orbslam-results-pitch}
-\end{figure}
+%\begin{figure}[t]
+%    \includegraphics[width=8cm]{orbslam-results-stacked}
+%    \caption{OrbSLAM average trajectory error over both time of day and lateral offset change}
+%    \label{fig:orbslam-results-offset}
+%\end{figure}
+%
+%\begin{figure}[t]
+%    \includegraphics[width=8cm]{orbslam-pitch-results}
+%    \caption{OrbSLAM average trajectory error over both time of day and lateral offset change}
+%    \label{fig:orbslam-results-pitch}
+%\end{figure}
+%
+%\begin{figure}[t]
+%    \includegraphics[width=8cm]{orbslam-yaw-results}
+%    \caption{OrbSLAM average trajectory error over both time of day and lateral offset change}
+%    \label{fig:orbslam-results-yaw}
+%\end{figure}
 
-\begin{figure}[t]
-    \includegraphics[width=8cm]{orbslam-yaw-results}
-    \caption{OrbSLAM average trajectory error over both time of day and lateral offset change}
-    \label{fig:orbslam-results-yaw}
-\end{figure}
-
-\import{./}{object-recognition.tex}
+% Niko, uncomment this when/if you get the object recognition stuff done.
+%\import{./}{object-recognition.tex}
 
 \subsection{SeqSLAM parameter tuning}
 
@@ -256,7 +268,7 @@ Unsurprisingly, observed performance is consistently better in simulation; we as
 %    \end{itemize}
 %\end{enumerate}
 
-\section{STRENGTHS AND IDENTIFIED LIMITATIONS}
+\section{DISCUSSION}
 
 The most difficult and time consuming aspect of using high-fidelity simulation is creating the scene in the first place. Scenes are built of 3d models and textures, which are first time consuming to create, and then take even more time to arrange in the scene. The more realistic a scene is required to be, the longer both of these stages take. The creation of high quality 3D models and scenes is the speciality of a professional 3D artist, so if a particular problem requires large or realistic scene it may be necessary to hire a 3D artist to construct it. It can also be extremely difficult to maintain a consistent scale throughout the scene. Examination of our scene in Figure \ref{fig:street-scene-overview} will reveal a myriad of scale flaws, note for instance the height of the houses relative to the width of the road.
 
@@ -268,13 +280,39 @@ Rather than sampling densely with a large initial dataset, we recommend initial 
 
 It is also important to note that the difficulty of a particular change to the simulation can be non-intuitive. For instance, it is very easy in the simulation to change the location or orientation of an object or the camera; or to change the base colour of a flat-coloured object. For this reason, it was very easy for us to add additional variations on the camera path, since this simply changes the camera's location and orientation. On the other hand, changing the lighting is simple manually, but for good quality lighting a lot of data needs to be recalculated, which takes a lot of time and is not designed to be triggered programatically. As such, it takes longer to generate data across different times of day, and it would be more time-consuming for us to test at an additional time of day.
 
-\section{FUTURE WORK}
+\section{CONCLUSIONS AND FUTURE WORK}
 
-There remains a significant amount of applications that we have not yet explored. At this time, we have not successfully tested interaction between robot control code and high-fidelity simulation, further work is required on the code interfaces that make this possible. With further investigation, it should be possible to create full simulators for computer vision code including control code that interacts with the simulated world. This opens up the advantages of high-fidelity simulation to all computer vision algorithms, rather than only to passive algorithms.
+In this paper we investigated the use of photo-realistic gaming engine simulation tool to address important challenges in robotic vision: that
+experiments cannot  be repeated, that algorithms cannot be quantitatively compared, and that for object recognition the lack of labelled training and test
+is a bottleneck for training deep networks.
+The simulation allows us to create high realistic images from an arbitrary camera or cameras in a complex 3-dimensional world in which lighting and atmospheric
+conditions can be set at will.
+We  showed how we can systematically evaluate some standard robotic vision algorithms (robust place recognition and visual SLAM) in ways which have not
+been previously possible.  These algorithms are broadly representive of the classes of image-based and feature-based methods.
+We  also showed how we can synthetically generate a large number of images to train a deep network for object recognition, and evaluated that network
+for real images of the objects concerned.
 
-This paper has focused on using simulation to test and analyse computer vision algorithms, but the generation of image data can also be used to train learning algorithms, such as deep-learning neural nets. Interestingly, it should be possible to apply the iterative testing approach outlined here to network training, alternating between generating new test data to fill holes in the performance graph and generating new training data to correct areas of poor performance, with a reduced risk of over-training.
+We have only just begun to scratch the surface of this new approach to robotic vision.
+So far our paths through the environment are set manually rather than being driven by a robotic vision algorithm.
+Integrating the game engine into the ROS environment would simplify this, allowing us to run a robotic vision algorithm in a manner analagous to a 
+hardware-in-the-loop simulator, its output commands the camera pose in the simulator and the rendered image becomes its input.
+The fidelity of the simulation approach needs to be tested on a wider variety of common vision algorithms.
+Creating complex 3D worlds is time consuming and we are investigating modern 3D reconstruction techniques to create a first draft of a simulated world. It should also be possible to procedurally generate many parts of the environment, establishing rules for the generation of roads, cities, and other environments allowing variations to be produced quickly. Finally, many assets need only be created once, and a wider community using simulation and sharing work should reduce the initial costs of setting up a simulation.
 
-The key problem with using high-fidelity simulation is that generating simulation environments is too costly. There are a number of different ways that this can be made easier. Firstly, it is often desirable for simulation environments to mirror a real-world environment in some way, and so it should be possible to use modern 3D reconstruction techniques to lay the groundwork for a simulation environment. It should also be possible to procedurally generate more about the environment, establishing rules for the generation of roads, cities, and other environments allowing variations to be produced quickly. Finally, many assets need only be created, and a wider community using simulation and sharing work should reduce the initial costs of setting up a simulation.
+%from camera to simulation
+%There remains a significant amount of applications that we have not yet explored. At this time, we have not successfully tested interaction between robot control code and high-fidelity simulation, further work is required on the code interfaces that make this possible. With further investigation, it should be possible to create full simulators for computer vision code including control code that interacts with the simulated world. This opens up the advantages of high-fidelity simulation to all computer vision algorithms, rather than only to passive algorithms.
+%
+%This paper has focused on using simulation to test and analyse computer vision algorithms, but the generation of image data can also be used to train learning algorithms, such as deep-learning neural nets. Interestingly, it should be possible to apply the iterative testing approach outlined here to network training, alternating between generating new test data to fill holes in the performance graph and generating new training data to correct areas of poor performance, with a reduced risk of over-training.
+%%
+%The key problem with using high-fidelity simulation is that generating simulation environments is too costly. There are a number of different ways that this can be made easier. Firstly, it is often desirable for simulation environments to mirror a real-world environment in some way, and so it should be possible to use modern 3D reconstruction techniques to lay the groundwork for a simulation environment. It should also be possible to procedurally generate more about the environment, establishing rules for the generation of roads, cities, and other environments allowing variations to be produced quickly. Finally, many assets need only be created, and a wider community using simulation and sharing work should reduce the initial costs of setting up a simulation.
+%=======
+%\subsection{Future Work}
+%
+%There remains a significant amount of applications that we have not yet explored. At this time, we have not successfully tested interaction between robot control code and high-fidelity simulation, further work is required on the code interfaces that make this possible. With further investigation, it should be possible to create full simulators for computer vision code including control code that interacts with the simulated world. This opens up the advantages of high-fidelity simulation to all computer vision algorithms, rather than only to passive algorithms.
+%
+%This paper has focused on using simulation to test and analyse computer vision algorithms, but the generation of image data can also be used to train learning algorithms, such as deep-learning neural nets. Interestingly, it should be possible to apply the iterative testing approach outlined here to network training, alternating between generating new test data to fill holes in the performance graph and generating new training data to correct areas of poor performance, with a reduced risk of over-training.
+%
+%The key problem with using high-fidelity simulation is that generating simulation environments is too costly. There are a number of different ways that this can be made easier. Firstly, it is often desirable for simulation environments to mirror a real-world environment in some way, and so it should be possible to use modern 3D reconstruction techniques to lay the groundwork for a simulation environment. It should also be possible to procedurally generate more about the environment, establishing rules for the generation of roads, cities, and other environments allowing variations to be produced quickly. Finally, many assets need only be created, and a wider community using simulation and sharing work should reduce the initial costs of setting up a simulation.
 
 \addtolength{\textheight}{-12cm}   % This command serves to balance the column lengths
                                   % on the last page of the document manually. It shortens

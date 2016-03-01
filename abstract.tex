@@ -1,4 +1,20 @@
 % !TEX root = root.tex
 
 % TODO: Re-write after the rest of the paper
-One of the critical bottlenecks of computer and robotic vision research has been the extent to which real world image data could be captured for both training and testing purposes. In domains such as robot navigation, certain types of highly relevant data is difficult and labor intensive to obtain - for example, multiple traverses of a road under all possible environmental conditions or from all possible camera viewpoints. In this paper, we investigate how these limitations can be addressed by using a high-fidelity simulation environment to generate image datasets. To achieve this, we use an existing state of the art simulation tool, Unreal Engine 4 by Epic Games, to generate a variety of image datasets that contain task-relevant variation including camera-viewpoint change and time of day changes, and demonstrate that algorithm performance in the real world is similar to in simulation. These datasets enable us to systematically evaluate current state-of-the-art place recognition algorithms at a granularity that was previously impossible, both in terms of comparing algorithms to each other but also evaluating the effect of varying key algorithm parameters. Together, this work opens up new opportunities for development and analysis of algorithms, without the added cost of capturing real-world datasets with which to test the algorithm under development.
+Robotic vision, unlike computer vision, involves processing a stream of images from a camera with time varying pose operating in an environment with
+time varying lighting conditions and moving distractor objects.
+The consequence is that no robot vision experiment can ever be repeated and the performance of different algorithms cannot be compared since they are conducted under different conditions.
+For machine learning applications a critical bottleneck is the limited amount of real world image data could be captured and labelled for both training and testing purposes. 
+
+In this paper we investigate the use of a photo-realistic  simulation tool to address these challenges for the problems of: robust place recognition,
+visual SLAM and object recognition.
+For the first two problems we generate generate images from a complex 3D environment with
+repeatable camera paths and lighting conditions.
+For the first time we able to show how the peformance of these algorithms falls off as paths  and lighting conditions change.
+We also compare algorithm results for a camera in a  real environment and a simulated camera in a simulation model of that real environment.
+For object recognition we generate labelled image data to train a deep network which we demonstrate is able to robustly recognize the real-world
+version of the simulated objects.
+
+%In this paper, we investigate how these limitations can be addressed by using a high-fidelity simulation environment to generate image datasets. To achieve this, we use an existing state of the art simulation tool, Unreal Engine 4 by Epic Games, to generate a variety of image datasets that contain task-relevant variation including camera-viewpoint change and time of day changes, and demonstrate that algorithm performance in the real world is similar to in simulation. These datasets enable us to systematically evaluate current state-of-the-art place recognition algorithms at a granularity that was previously impossible, both in terms of comparing algorithms to each other but also evaluating the effect of varying key algorithm parameters. Together, this work opens up new opportunities for development and analysis of algorithms, without the added cost of capturing real-world datasets with which to test the algorithm under development.
+%
+%In domains such as robot navigation, certain types of highly relevant data is difficult and labor intensive to obtain - for example, multiple traverses of a road under all possible environmental conditions or from all possible camera viewpoints.
