@@ -227,6 +227,8 @@ This data suggests that for distances up to 3.5m offset from the reference locat
     \label{fig:offset-matching-param-results}
 \end{figure}
 
+\textbf{Benefits of Simulation:} The performance curves generated using simulated datasets for SeqSLAM show a peculiar behaviour for certain parameter values. This enables a comprehensive evaluation of the algorithm for such cases which is not expected in general. The corresponding input parameters of SeqSLAM which might have caused the unexpected intermittent performance drop as shown in the Figure \ref{fig:seqslam-results-stacked} could be the \emph{Offset Matching Range} and/or \emph{Patch Normalization} factor.
+
 \subsection{Comparison to real-world}
 
 It is important to verify that performance change in simulation is representative of performance change in the real world. To test this, we compared performance drop over lateral viewpoint change using SeqSLAM for data from a real street and for data generated from a simulation of a similar street. The results can be seen in Figure \ref{fig:real-world-results}.
@@ -306,7 +308,7 @@ Appendixes should appear before the acknowledgment.
 
 
 \bibliographystyle{plain}
-\bibliography{john-bibliography} 
+\bibliography{john-bibliography,sourav-visual-SLAM}  
 
 
 
