@@ -192,17 +192,17 @@ Using high-fidelity simulation has allowed us to explore the behaviour of SeqSLA
 %    \label{fig:seqslam-results-yaw}
 %\end{figure}
 
-\subsection{Place Recognition: OrbSLAM}
+\subsection{Visual SLAM: ORB-SLAM}
 
-The second place recognition algorithm tested was OrbSLAM \cite{Montiel2015}. OrbSLAM is a feature-based monocular SLAM system, that performs feature-based visual tracking, mapping and loop closure using ORB features.
+The second algorithm tested was ORB-SLAM \cite{Montiel2015}. ORB-SLAM is a feature-based monocular SLAM system, that performs feature-based visual feature tracking, place recognition, mapping and loop closure using ORB features.
 
-To test OrbSLAM, we again generated a variety of image datasets from the same street scene, with 5 different times of day, a baseline pass and 20 different viewpoint variations. Due to the mapping element of OrbSLAM, all datasets were made to start and end in the same place. To test the performance, each of the datasets was appended to the noon baseline dataset (acting as a reference pass), and we looked for loop closures between the two passes. Results are summarised in Figure \ref{fig:orbslam-results-stacked}.
+To test OrbSLAM, we again generated a variety of image datasets from the same street scene, with 5 different times of day, a baseline pass and 20 different viewpoint variations. Due to the mapping element of OrbSLAM, all datasets were made to start and end in the same place. To test the performance, each of the datasets was appended to the noon baseline dataset (acting as a reference pass), and camera trajectories were generated. These trajectories were then compared with the ground truth to calculate the Absolute Trajectory Error after aligning their scale. Results are summarised in Figure \ref{fig:orbslam-results-stacked}.
 
-The observed performance of OrbSLAM is patchy, error seems to range inconsistently, irrespective of the viewpoint or conditions. Even the baseline datasets with no viewpoint change between the passes have trouble sometimes, such as in the morning pass. On the other hand, the performance of the algorithm doesn't seem to depend on viewpoint or time of day at all, but on other factors not controlled in our data. In the end, the inconsistent performance of OrbSLAM under comprehensive testing is a question for the developers.
+The observed performance of ORB-SLAM is patchy, error seems to range inconsistently, irrespective of the viewpoint or conditions. Even the baseline datasets with no viewpoint change between the passes have trouble sometimes, such as in the morning pass. On the other hand, the performance of the algorithm doesn't seem to depend on viewpoint or time of day at all, but on other factors not controlled in our data. In the end, the inconsistent performance of ORB-SLAM under comprehensive testing is a question for the developers.
 
 \begin{figure}[ht]
     \includegraphics[width=7cm]{orbslam-results-stacked}
-   \caption{OrbSLAM average trajectory error over, from top to bottom, lateral offset, vertical orientation change (pitch), and horizontal orientation change (yaw). Each viewpoint change is captured for 5 different times of day.}
+   \caption{ORB-SLAM average trajectory error over, from top to bottom, lateral offset, vertical orientation change (pitch), and horizontal orientation change (yaw). Each viewpoint change is captured for 5 different times of day.}
     \label{fig:orbslam-results-stacked}
 \end{figure}
 
