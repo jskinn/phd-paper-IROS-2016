@@ -26,6 +26,7 @@
 \usepackage{import}
 \graphicspath{ {images/} }
 \maxdeadcycles=1000
+\setlength{\tabcolsep}{3pt}
 
 \title{\LARGE \bf
 High-Fidelity Simulation for Evaluating Robotic Vision Performance
@@ -252,12 +253,23 @@ This data suggests that for distances up to 3.5m offset from the reference locat
 \textbf{Benefits of Simulation:} The performance curves generated using simulated datasets for SeqSLAM show a peculiar behaviour for certain parameter values. This enables a comprehensive evaluation of the algorithm for such cases which is not expected in general. The corresponding input parameters of SeqSLAM which might have caused the unexpected intermittent performance drop as shown in the Figure \ref{fig:seqslam-results-stacked} could be the \emph{Offset Matching Range} and/or \emph{Patch Normalization} factor. We further analysed the performance drop for different times of day at $10\degree$ pitch. Figure \ref{fig:seqSLAM-diffMat} shows the SAD matrix comparison with ground truth, true positives and false positives marked.
 
 \begin{figure*}[t]
-    \includegraphics[scale=0.4]{result-marked-dawn-down-10}
-    \includegraphics[scale=0.4]{result-marked-morning-down-10}
-    \includegraphics[scale=0.4]{result-marked-noon-down-10}
-    \includegraphics[scale=0.4]{result-marked-afternoon-down-10}
-    \includegraphics[scale=0.4]{result-marked-sunset-down-10}
-    \caption{The SAD matrix for comparison of Noon Baseline dataset with a change in $10\degree$ pitch for increasing time of day from dawn to sunset. The ground truth is marked in blue and forms the diagonal of the matrix with true positives overlaid in green on the diagonal. The false positives are marked in red.}
+\centering
+\begin{tabular}[t]{ccccccccc}
+    \includegraphics[scale=0.2]{1-down30} &
+    \includegraphics[scale=0.2]{2-down15} &
+    \includegraphics[scale=0.2]{3-down10} &
+    \includegraphics[scale=0.2]{4-down5} &
+    \includegraphics[scale=0.2]{5-base} & 
+    \includegraphics[scale=0.2]{6-up5} &
+    \includegraphics[scale=0.2]{7-up10} &
+    \includegraphics[scale=0.2]{8-up15} &
+    \includegraphics[scale=0.2]{9-up30} \\
+    Down $30\degree$ & Down $15\degree$ & Down $10\degree$ & Down $5\degree$ &
+    Baseline &
+    Up $5\degree$ & Up $10\degree$ & Up $15\degree$ & Up $30\degree$
+
+\end{tabular}
+    \caption{The SAD matrix for comparison of Noon Baseline dataset with a change in orientation of camera's pitch. The ground truth is marked in blue and forms the diagonal of the matrix with true positives overlaid in yellow on the diagonal. The false positives are marked in red.}
     \label{fig:seqSLAM-diffMat}
 \end{figure*}
 
@@ -266,8 +278,11 @@ This data suggests that for distances up to 3.5m offset from the reference locat
 It is important to verify that performance change in simulation is representative of performance change in the real world. To test this, we compared performance drop over lateral viewpoint change using SeqSLAM for data from a real street and for data generated from a simulation of a similar street. The real data experiment images are shown in Figure \ref{fig:real-world-data} and the performance results can be seen in Figure \ref{fig:real-world-results}.
 
 \begin{figure*}[t]
-    \includegraphics[scale=0.25]{real-data-lateralOffset}
-    \caption{Images for five different traversals of a street with different lateral offsets. This real world data is used to compare the trend of performance change with change in lateral shifts as compared to the simulated data.}
+\centering
+    \includegraphics[width=15cm,height=2cm]{real-data-lateralOffset} \\
+    \vspace{0.1cm}
+    \includegraphics[width=15cm,height=2cm]{simulated-data-lateralOffset}
+    \caption{Images for five different traversals of a street with different lateral offsets. This real world data (top) is used to compare the trend of performance change with change in lateral shifts as compared to the simulated data (bottom).}
     \label{fig:real-world-data}
 \end{figure*}
 
