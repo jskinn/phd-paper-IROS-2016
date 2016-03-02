@@ -268,6 +268,25 @@ Unsurprisingly, observed performance is consistently better in simulation; we as
 %    \end{itemize}
 %\end{enumerate}
 
+\section{Analysis of Object Recognition Viewpoint Dependency}
+
+Another area of robotics research that can benefit from high fidelity simulation is visual object recognition and detection.
+Much of the recent progress in this field has been driven by the computer vision community's intensive race to achieve ever improving performance on large image recognition datasets like ImageNet \cite{Russakovsky14} that is curated from large online photo repositories. State-of-the-art deep learning techniques now rival or surpass human performance and often approach perfect performance on these test sets. Rationally, related research fields such as robotics should be the beneficiary of such significant advances, but with a few exceptions, deep learning techniques have made little headway into the robotics field. Perhaps the primary reason for this disconnect is that robots operating in unpredictable, real world environments encounter visual imagery with very different characteristics and biases (or lack of biases) to that seen in traditional computer vision datasets. 
+
+
+The high-fidelity simulation framework discussed in this paper allows to render realistic views of arbitrary objects from different viewpoints, under different lighting conditions, backgrounds, and occlusions. Such a dataset enables an in-depth analysis of current object recognition approaches to understand under which conditions and viewpoints good performance can be expected, and to inform and improve the training process to address the discovered challenges.
+
+To demonstrate the potential of such analyses, we perform a viepwoint dependency test for an exemplary state-of-the-art convolutional network for object recognition. We use the simulation framework to generate views of a coffee mug object by moving the camera around the object on a sphere. We increment pitch and yaw in 5 degrees steps while letting the camera point at the object centre. The generated images were then classified by the \texttt{vgg\_s} convolutional network \cite{Chatfield14} and we record successful or wrong classification. Fig. \ref{fig:obj-recognition} illustrates the results and reveals the object-specific viewpoint dependency: The mug could only be correctly identified when the handle was clearly visible, sticking out to the side. Furthermore, even with the handle visible, the classification failed under insufficient lighting conditions (e.g. in the area around pitch 175, yaw 100). Interestingly the mug can be identified correctly if seen from above, i.e. looking inside the mug (pitch 175 degrees), but not when observing the mug from below. Such insights can help improve the training process of object classifiers and the simulation framework can even be used to generate more training data from viewpoints or under conditions that are hard to replicate in reality.
+
+
+
+\begin{figure}[t]
+    \includegraphics[width=\linewidth]{object_recognition.pdf}
+    \caption{Simulated viewpoint-dependency test for the \texttt{vgg\_s} convolutional network \cite{Chatfield14} on a coffee mug object. Successful recognition (green) requires the mug handle to be clearly visible and the object to be well-illuminated.}
+    \label{fig:obj-recognition}
+\end{figure}
+
+
 \section{DISCUSSION}
 
 The most difficult and time consuming aspect of using high-fidelity simulation is creating the scene in the first place. Scenes are built of 3d models and textures, which are first time consuming to create, and then take even more time to arrange in the scene. The more realistic a scene is required to be, the longer both of these stages take. The creation of high quality 3D models and scenes is the speciality of a professional 3D artist, so if a particular problem requires large or realistic scene it may be necessary to hire a 3D artist to construct it. It can also be extremely difficult to maintain a consistent scale throughout the scene. Examination of our scene in Figure \ref{fig:street-scene-overview} will reveal a myriad of scale flaws, note for instance the height of the houses relative to the width of the road.
