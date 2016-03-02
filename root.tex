@@ -25,6 +25,7 @@
 \usepackage{graphicx}
 \usepackage{import}
 \graphicspath{ {images/} }
+\maxdeadcycles=1000
 
 \title{\LARGE \bf
 High-Fidelity Simulation for Evaluating Robotic Vision Performance
@@ -66,21 +67,53 @@ High-Fidelity Simulation for Evaluating Robotic Vision Performance
 
 \import{./}{introduction.tex}
 
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=8cm]{street-scene-overview}
+    \caption{The street scene used to capture the image datasets that were used for testing the place recognition algorithms. The line of white dots shows the baseline path followed by the camera when generating the datasets to test Sum of Absolute Differences matching and SeqSLAM. OrbSLAM test datasets follow a slightly different path so that they can loop their way around and end where they started.}
+    \label{fig:street-scene-overview}
+\end{figure}
+
 \section{PRIOR RESEARCH}
 
 \import{./}{prior-research.tex}
 
 \section{ANALYSIS OF PLACE RECOGNITION}
 
+\begin{figure*}[t]
+    \centering
+    \includegraphics[width=16cm]{data-comparison-stacked}
+    \caption{A Sample of the variation found in the datasets used for testing. The first row shows lateral offset, from left to right, images are offset are left 3.5m, 2m, 1m, 0.4m, 0.2m, Then the baseline, then offset right 0.2m, 0.4m, 1m, 2m, and 3.5m. The second row shows vertical orientation change,  left to right, images are angled are up $30\degree$, $15\degree$, $10\degree$, $5\degree$, Then the baseline, then angled down $5\degree$, $10\degree$, $15\degree$, and $30\degree$. The third row shows horizontal orientation change, from left to right, images are angled are left $30\degree$, $15\degree$, $10\degree$, $5\degree$, Then the baseline, then angled right$5\degree$, $10\degree$, $15\degree$, and $30\degree$. Finally, the lowest row shows samples of time of day variation, from left to right, images are taken at dawn, in the morning, at noon, in the afternoon, and at sunset.}
+    \label{fig:dataset-example}
+\end{figure*}
+
+%\begin{figure*}[t]
+%    \includegraphics[width=16cm,height=2cm]{lateral-offset-comparison}
+%    \caption{Sample images used to test lateral offset viewpoint invariance. From left to right, images are offset are left $3.5m$, $2m$, $1m$, $0.4m$, $0.2m$, Then the baseline, then offset right $0.2m$, $0.4m$, $1m$, $2m$, and $3.5m$}
+%    \label{fig:dataset-offset-example}
+%\end{figure*}
+%
+%\begin{figure*}[t]
+%    \includegraphics[width=16cm]{vertical-orientation-change-comparison}
+%    \caption{Sample images used to test orientation viewpoint invariance. From left to right, images are angled are up $30\degree$, $15\degree$, $10\degree$, $5\degree$, Then the baseline, then angled down $5\degree$, $10\degree$, $15\degree$, and $30\degree$}
+%    \label{fig:dataset-pitch-example}
+%\end{figure*}
+%
+%\begin{figure*}[t]
+%    \includegraphics[width=16cm,height=2cm]{horizontal-orientation-change-comparison}
+%    \caption{Sample images used to test orientation viewpoint invariance. From left to right, images are angled are left $30\degree$, $15\degree$, $10\degree$, $5\degree$, Then the baseline, then angled right$5\degree$, $10\degree$, $15\degree$, and $30\degree$}
+%    \label{fig:dataset-yaw-example}
+%\end{figure*}
+%
+%\begin{figure*}[t]
+%    \includegraphics[width=16cm,height=2cm]{time-of-day-comparison}
+%    \caption{Sample images used to test condition invariance. From left to right, images are taken at dawn, in the morning, at noon, in the afternoon, and at sunset}
+%    \label{fig:dataset-time-of-day-example}
+%\end{figure*}
+
 To demonstrate the effectiveness of high-fidelity simulation as an analysis tool for computer vision, we performed an in depth analysis of the viewpoint and time-of-day invariance of two different state-of-the-art place recognition algorithms, SeqSLAM \cite{Milford2012} and OrbSLAM \cite{Montiel2015}. Then, to demonstrate the versatility of we performed an analysis of the viewpoint dependence of object recognition.
 
 \subsection{Simulation Setup: Unreal Engine 4}
-
-\begin{figure*}[t]
-    \includegraphics[width=16cm]{street-scene-overview}
-    \caption{The street scene used to capture the image datasets that were used for testing the place recognition algorithms. The line of white dots shows the baseline path followed by the camera when generating the datasets to test Sum of Absolute Differences matching and SeqSLAM. OrbSLAM test datasets follow a slightly different path so that they can loop their way around and end where they started.}
-    \label{fig:street-scene-overview}
-\end{figure*}
 
 The simulation tool used in this paper was the Unreal Engine 4, developed by Epic Games Inc.
 
@@ -90,35 +123,11 @@ To generate the image data, the camera was made to move along a specified path a
 The simulator allows us to precisely repeat the same path, and introduce calculated and precise variations upon it.
 In order to explore how the performance of place recognition changes with time of day and viewpoint change, passes along the path were generated for 5 different times of day in combination with increasing lateral offsets or camera tilts (Figure \ref{fig:dataset-example}).
 
-\begin{figure*}[t]
-    \includegraphics[width=16cm]{lateral-offset-comparison}
-    \caption{Sample images used to test lateral offset viewpoint invariance. From left to right, images are offset are left $3.5m$, $2m$, $1m$, $0.4m$, $0.2m$, Then the baseline, then offset right $0.2m$, $0.4m$, $1m$, $2m$, and $3.5m$}
-    \label{fig:dataset-offset-example}
-\end{figure*}
-
-\begin{figure*}[t]
-    \includegraphics[width=16cm]{vertical-orientation-change-comparison}
-    \caption{Sample images used to test orientation viewpoint invariance. From left to right, images are angled are up $30\degree$, $15\degree$, $10\degree$, $5\degree$, Then the baseline, then angled down $5\degree$, $10\degree$, $15\degree$, and $30\degree$}
-    \label{fig:dataset-pitch-example}
-\end{figure*}
-
-\begin{figure*}[t]
-    \includegraphics[width=16cm]{horizontal-orientation-change-comparison}
-    \caption{Sample images used to test orientation viewpoint invariance. From left to right, images are angled are left $30\degree$, $15\degree$, $10\degree$, $5\degree$, Then the baseline, then angled right$5\degree$, $10\degree$, $15\degree$, and $30\degree$}
-    \label{fig:dataset-yaw-example}
-\end{figure*}
-
-\begin{figure*}[t]
-    \includegraphics[width=16cm]{time-of-day-comparison}
-    \caption{Sample images used to test condition invariance. From left to right, images are taken at dawn, in the morning, at noon, in the afternoon, and at sunset}
-    \label{fig:dataset-time-of-day-example}
-\end{figure*}
-
-\begin{figure}[t]
-    \includegraphics[width=8cm]{dataset-image-variety-grid}
-    \caption{Sample images from the datasets used, all images are taken from the same place at different times of day and viewpoint variations. From left to right, viewpoints are the base unmodified path, offset left 2m, offset right 2m, angled up $30\degree$, and angled right $30\degree$}
-    \label{fig:dataset-example}
-\end{figure}
+%\begin{figure}[t]
+%    \includegraphics[width=8cm]{dataset-image-variety-grid}
+%    \caption{Sample images from the datasets used, all images are taken from the same place at different times of day and viewpoint variations. From left to right, viewpoints are the base unmodified path, offset left 2m, offset right 2m, angled up $30\degree$, and angled right $30\degree$}
+%    \label{fig:dataset-example}
+%\end{figure}
 
 \subsection{Place Recognition: Sum of Absolute Differences}
 
@@ -133,6 +142,7 @@ Figure \ref{fig:sad-results-stacked} shows that SAD-based matching seems to be r
 Interestingly, matching rate falls off similarly with angle change irrespective of the direction of change (compare the lower two plots in Figure \ref{fig:sad-results-stacked}). Matching performance seems to follow an exponential decay with angle, but additional sampling would need to be performed to verify that hypothesis. It may also be worth investigating the effects of multiple orientation offsets combined together to see how they compound. Were it the aim of this paper, it would be relatively simple to generate additional required sample passes to properly evaluate, but it is beyond the current scope.
 
 \begin{figure}[ht]
+    \centering
     \includegraphics[width=7cm]{SAD-results-stacked}
     \caption{Match percentage for Sum of Absolute Differences for, from top to bottom, lateral offset, vertical orientation change (pitch), and lateral orientation change (yaw). Each offset was tested across several times of day.}
     \label{fig:sad-results-stacked}
@@ -169,6 +179,7 @@ The other feature of note in the performance characteristics is the way the F1 s
 Using high-fidelity simulation has allowed us to explore the behaviour of SeqSLAM more comprehensively than ever before, and has revealed new details of its behaviour. Further investigation will be required to find the reason for this, which will lead to it becoming more reliable and even more robust.
 
 \begin{figure}[t]
+    \centering
     \includegraphics[width=7cm]{SeqSLAM-results-stacked}
     \caption{SeqSLAM performance over, from top to bottom, lateral offset, vertical orientation change (pitch), and horizontal orientation change (yaw). Each viewpoint change is captured over 5 times of day to show how performance degrades over both viewpoint and condition change}
     \label{fig:seqslam-results-stacked}
@@ -200,7 +211,8 @@ To test OrbSLAM, we again generated a variety of image datasets from the same st
 
 The observed performance of ORB-SLAM is patchy, error seems to range inconsistently, irrespective of the viewpoint or conditions. Even the baseline datasets with no viewpoint change between the passes have trouble sometimes, such as in the morning pass. On the other hand, the performance of the algorithm doesn't seem to depend on viewpoint or time of day at all, but on other factors not controlled in our data. In the end, the inconsistent performance of ORB-SLAM under comprehensive testing is a question for the developers.
 
-\begin{figure}[ht]
+\begin{figure}[t]
+    \centering
     \includegraphics[width=7cm]{orbslam-results-stacked}
    \caption{ORB-SLAM average trajectory error over, from top to bottom, lateral offset, vertical orientation change (pitch), and horizontal orientation change (yaw). Each viewpoint change is captured for 5 different times of day.}
     \label{fig:orbslam-results-stacked}
@@ -226,11 +238,12 @@ The observed performance of ORB-SLAM is patchy, error seems to range inconsisten
 
 \subsection{SeqSLAM parameter tuning}
 
-The detailed analysis we have performed can be used to inform subsequent actions, including parameter tuning. To demonstrate this, we again tested the performance of Sum of Absolute Differences on the noon datasets across the range of lateral offsets shown in Figure \ref{fig:dataset-offset-example} with a variety of different offset window parameters. SeqSLAM uses Sum of Absolute Differences combined with an offset window parameter that shifts the image pixels to achieve a better matching image. The results of this test can be seen in Figure \ref{fig:offset-matching-param-results}.
+The detailed analysis we have performed can be used to inform subsequent actions, including parameter tuning. To demonstrate this, we again tested the performance of Sum of Absolute Differences on the noon datasets across the range of lateral offsets shown in Figure \ref{fig:dataset-example} with a variety of different offset window parameters. SeqSLAM uses Sum of Absolute Differences combined with an offset window parameter that shifts the image pixels to achieve a better matching image. The results of this test can be seen in Figure \ref{fig:offset-matching-param-results}.
 
 This data suggests that for distances up to 3.5m offset from the reference location, it is best to use the smaller 4 pixel window range. The use of an offset window shows clear improvement in performance, but larger windows may  introduce false matches. Larger windows may be appropriate to larger offset, and if necessary we could easily have tested this by generating more data and extending the experiment.
 
 \begin{figure}[t]
+    \centering
     \includegraphics[width=7cm]{offset-matching-results}
     \caption{Sum of Absolute Difference matching rate as the maximum offset window is increased. This result helps us choose a maximum offset appropriate for a given lateral offset}
     \label{fig:offset-matching-param-results}
@@ -245,6 +258,7 @@ It is important to verify that performance change in simulation is representativ
 Unsurprisingly, observed performance is consistently better in simulation; we ascribe this to a lack of sufficient realism in the simulation, which was built simply and quickly. However, the performance follows the same trends in both environments, falling off smoothly as the offset difference increases. This demonstrates that performance results obtained in simulation obey similar trends to data obtained from even simplistic simulations.
 
 \begin{figure}[t]
+    \centering
     \includegraphics[width=7cm]{real-world-results}
     \caption{Comparison of SeqSLAM performance falloff between simulated and real-world environments as lateral offset increases. As is often the case, simulated performance is better in an absolute sense, but the trend is the same in both cases. This data was not compared across multiple times of day.}
     \label{fig:real-world-results}
