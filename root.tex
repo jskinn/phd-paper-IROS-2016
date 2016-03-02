@@ -63,7 +63,7 @@ High-Fidelity Simulation for Evaluating Robotic Vision Performance
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{INTRODUCTION}
+\section{INTRODUCTION} \label{sec:introduction}
 
 \import{./}{introduction.tex}
 
@@ -74,11 +74,11 @@ High-Fidelity Simulation for Evaluating Robotic Vision Performance
     \label{fig:street-scene-overview}
 \end{figure}
 
-\section{PRIOR RESEARCH}
+\section{PRIOR RESEARCH} \label{sec:prior-research}
 
 \import{./}{prior-research.tex}
 
-\section{ANALYSIS OF PLACE RECOGNITION}
+\section{ANALYSIS OF PLACE RECOGNITION} \label{sec:analysis-place-rec}
 
 \begin{figure*}[t]
     \centering
@@ -295,7 +295,7 @@ Unsurprisingly, observed performance is consistently better in simulation; we as
 %    \end{itemize}
 %\end{enumerate}
 
-\section{Analysis of Object Recognition Viewpoint Dependency}
+\section{Analysis of Object Recognition Viewpoint Dependency} \label{sec:object-recognition}
 
 Another area of robotics research that can benefit from high fidelity simulation is visual object recognition and detection.
 Much of the recent progress in this field has been driven by the computer vision community's intensive race to achieve ever improving performance on large image recognition datasets like ImageNet \cite{Russakovsky14} that is curated from large online photo repositories. State-of-the-art deep learning techniques now rival or surpass human performance and often approach perfect performance on these test sets. Rationally, related research fields such as robotics should be the beneficiary of such significant advances, but with a few exceptions, deep learning techniques have made little headway into the robotics field. Perhaps the primary reason for this disconnect is that robots operating in unpredictable, real world environments encounter visual imagery with very different characteristics and biases (or lack of biases) to that seen in traditional computer vision datasets. 
@@ -305,8 +305,6 @@ The high-fidelity simulation framework discussed in this paper allows to render 
 
 To demonstrate the potential of such analyses, we perform a viepwoint dependency test for an exemplary state-of-the-art convolutional network for object recognition. We use the simulation framework to generate views of a coffee mug object by moving the camera around the object on a sphere. We increment pitch and yaw in 5 degrees steps while letting the camera point at the object centre. The generated images were then classified by the \texttt{vgg\_s} convolutional network \cite{Chatfield14} and we record successful or wrong classification. Fig. \ref{fig:obj-recognition} illustrates the results and reveals the object-specific viewpoint dependency: The mug could only be correctly identified when the handle was clearly visible, sticking out to the side. Furthermore, even with the handle visible, the classification failed under insufficient lighting conditions (e.g. in the area around pitch 175, yaw 100). Interestingly the mug can be identified correctly if seen from above, i.e. looking inside the mug (pitch 175 degrees), but not when observing the mug from below. Such insights can help improve the training process of object classifiers and the simulation framework can even be used to generate more training data from viewpoints or under conditions that are hard to replicate in reality.
 
-
-
 \begin{figure}[t]
     \includegraphics[width=\linewidth]{object_recognition.pdf}
     \caption{Simulated viewpoint-dependency test for the \texttt{vgg\_s} convolutional network \cite{Chatfield14} on a coffee mug object. Successful recognition (green) requires the mug handle to be clearly visible and the object to be well-illuminated.}
@@ -314,7 +312,7 @@ To demonstrate the potential of such analyses, we perform a viepwoint dependency
 \end{figure}
 
 
-\section{DISCUSSION}
+\section{DISCUSSION} \label{sec:discussion}
 
 The most difficult and time consuming aspect of using high-fidelity simulation is creating the scene in the first place. Scenes are built of 3d models and textures, which are first time consuming to create, and then take even more time to arrange in the scene. The more realistic a scene is required to be, the longer both of these stages take. The creation of high quality 3D models and scenes is the speciality of a professional 3D artist, so if a particular problem requires large or realistic scene it may be necessary to hire a 3D artist to construct it. It can also be extremely difficult to maintain a consistent scale throughout the scene. Examination of our scene in Figure \ref{fig:street-scene-overview} will reveal a myriad of scale flaws, note for instance the height of the houses relative to the width of the road.
 
@@ -326,7 +324,7 @@ Rather than sampling densely with a large initial dataset, we recommend initial 
 
 It is also important to note that the difficulty of a particular change to the simulation can be non-intuitive. For instance, it is very easy in the simulation to change the location or orientation of an object or the camera; or to change the base colour of a flat-coloured object. For this reason, it was very easy for us to add additional variations on the camera path, since this simply changes the camera's location and orientation. On the other hand, changing the lighting is simple manually, but for good quality lighting a lot of data needs to be recalculated, which takes a lot of time and is not designed to be triggered programatically. As such, it takes longer to generate data across different times of day, and it would be more time-consuming for us to test at an additional time of day.
 
-\section{CONCLUSIONS AND FUTURE WORK}
+\section{CONCLUSIONS AND FUTURE WORK} \label{sec:conclusion}
 
 In this paper we investigated the use of photo-realistic gaming engine simulation tool to address important challenges in robotic vision: that
 experiments cannot  be repeated, that algorithms cannot be quantitatively compared, and that for object recognition the lack of labelled training and test
