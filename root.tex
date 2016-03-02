@@ -122,7 +122,7 @@ In order to explore how the performance of place recognition changes with time o
 
 \subsection{Place Recognition: Sum of Absolute Differences}
 
-The first test we did was on simple place recognition using simple sum-of-absolute-differences (SAD) based image matching. While this is neither state-of-the-art nor particularly effective, sum-of-absolute-differences is a common metric which is used in many computer vision algorithms, including SeqSLAM discussed below. As such, an analysis of it's performance characteristics is potentially interesting.
+The first test we did was on simple place recognition using simple sum-of-absolute-differences (SAD) based image matching. While this is neither state-of-the-art nor particularly effective, sum-of-absolute-differences is a common metric which is used in many computer vision algorithms, including SeqSLAM discussed below. As such, an analysis of its performance characteristics is potentially interesting.
 
 Before matching, each image is down-sampled to 64x64 pixels and reduced to greyscale, in order to save computation time. The matcher used compares each image in a query dataset to each of those in a reference dataset, and considers the reference image with the lowest sum of absolute difference to be a match. The performance is then the percentage of images for which the matched reference image is taken from a place close to the query image.
 
@@ -166,7 +166,7 @@ The first immediately obvious result is the anomalous low performance values for
 
 The other feature of note in the performance characteristics is the way the F1 score plateaus for translational offsets of less than 1 and orientation changes of 5\degree. When the algorithm performs well, it seems to do so irrespective of the time of day. Strong condition invariance has been noted in previous work as a particular feature of SeqSLAM \cite{Milford2012}, so it is good to see it confirmed here. Note however that when the performance falls off, it becomes less condition invariant, falling off further toward sunset and sunrise.
 
-Using high-fidelity simulation has allowed us to explore the behaviour of SeqSLAM more comprehensively than ever before, and has revealed new details of it's behaviour. Further investigation will be required to find the reason for this, which will lead to it becoming more reliable and even more robust.
+Using high-fidelity simulation has allowed us to explore the behaviour of SeqSLAM more comprehensively than ever before, and has revealed new details of its behaviour. Further investigation will be required to find the reason for this, which will lead to it becoming more reliable and even more robust.
 
 \begin{figure}[t]
     \includegraphics[width=7cm]{SeqSLAM-results-stacked}
@@ -249,7 +249,7 @@ Unsurprisingly, observed performance is consistently better in simulation; we as
 
 \begin{figure}[t]
     \includegraphics[width=7cm]{real-world-results}
-    \caption{Comparison of SeqSLAM performance falloff between simulated and real-world environments as lateral offset increases. As is often the case, simulated performance is better in an absolute sense, but the trend is the same in both cases.}
+    \caption{Comparison of SeqSLAM performance falloff between simulated and real-world environments as lateral offset increases. As is often the case, simulated performance is better in an absolute sense, but the trend is the same in both cases. This data was not compared across multiple times of day.}
     \label{fig:real-world-results}
 \end{figure}
 
