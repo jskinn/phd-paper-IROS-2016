@@ -2,23 +2,21 @@
 Robotic vision involves processing a stream of images from a camera attached to a robot moving through a physical environment.
 The pose of the robot's camera is controlled and is a function of previous images.  The environment typically has a complex 3D structure with transient 
 distractor objects of unknown type and motion, as well as time varying lighting conditions.
-An important consequence is that no robot vision experiment can ever be repeated.
-Nor can the performance of different algorithms be compared, as they are in computer vision research, since they will be evaluated under different conditions: the robot initial conditon may vary, the lighting may vary, and the camera path which is a function of previous images may vary.
+An important consequence is that no robot vision experiment can ever be exactly repeated.
+Nor can the performance of different algorithms be easily compared, as they are in computer vision research, since they will be evaluated under different conditions: the robot's initial conditions may vary, as may the lighting, environmental conditions and camera path.
 
-In contrast,  progress in computer vision research is driven by datasets of images which are are static, not temporally related and there is no scope for the algorithm to
-request a slightly different view of the scene as is possible in robotic vision.
-Computer vision research has recently made giant strides in performance through the use of deep learning, but this is fundamentally limited by the amount of representative real world image data could be captured and labelled for  training and testing purposes. 
+In contrast,  progress in computer vision research is driven by datasets of images which are are static, not temporally related. There is no scope for an algorithm to
+request a slightly different view of the scene, as is possible in robotic vision.
+Computer vision research has recently made giant strides in performance through the use of deep learning, but this approach is fundamentally limited by the amount of representative real world image data that can be captured and labelled for training and testing purposes. 
 
 In this paper we propose the use of a state-of-the-art photo-realistic simulation tool, the Unreal Engine 4 by Epic Games, to address these challenges.
-This tool, developed for gaming,  allows the creation of complex 3-dimensional worlds that are realistically rendered.  The  view from a camera at any arbitrary pose can be obtained and this allows us to mimic the motion of a robot through the environment, and the robot can one or many cameras. We can also change the illumination conditions, adjusting the position of the sun, the cloud conditions, artificial light sources and atmospheric conditions such as fog.
-A particular advantage is that ground truth is known, camera poses and object positions estimated by robotic vision algorithms can be compared against the
-simulation state. 
+This tool, developed for gaming,  allows the creation of complex 3-dimensional worlds that are realistically rendered.  The  view from a camera at any arbitrary pose can be obtained, enabling us to mimic the motion of a robot through the environment, and the robot can have one or many cameras. We can also change the illumination conditions, adjusting the position of the sun, the cloud conditions, artificial light sources and atmospheric conditions such as fog. Because exact ground truth is known, camera poses and object positions estimated by robotic vision algorithms can be compared against the simulation state information. 
 
-The key contribution of this paper is studying the efficacy of this new tool for robotic vision, in particular evaluating algorithms in a systematic and repeatable manner, and generating synthetic data for training deep networks.
-We test our ideas for three common robotic use cases.
-Firstly, robust place recognition using the SeqSLAM\cite{Milford2012} algorithm.  We capture a reference path through the world at a particular time of day and then evaluate precision-recall (which we summarise as F1 score) for different paths through the world and for different lighting conditions.  The simulation allows us to change the path and the lighting independently -- something that cannot be done when capturing image sequences from the real world.
-Secondly, for visual SLAM we evaluate the performance of OrbSLAM in an environment where the ground truth is known (the simulation model and camera path) and the camera path and lighting conditions are varied.
-Thirdly, we look at object recognition.  We use the simulator to exhaustively render every combination of pitch and yaw in small increments. We then use this data to evaluate the viewpoint independence of an exemplary state-of-the-art convolutional network.
+The key contribution of this paper is studying the efficacy of this new tool for robotic vision, in particular evaluating algorithms in a systematic and repeatable manner, and its potential for generating large amounts of synthetic data for purposes such as training deep networks.
+We test our ideas in three common robotic use cases.
+The first is robust place recognition using the SeqSLAM\cite{Milford2012} algorithm.  We capture a reference path through the world at a particular time of day and then evaluate precision-recall performance (which we summarise as F1 score) for different paths through the world under a range of varying lighting conditions.  The simulation allows us to change the path and the lighting independently -- something that cannot be done when capturing image sequences from the real world.
+Secondly, for visual SLAM we evaluate the performance of the state-of-the-art OrbSLAM system in an environment where the ground truth is known (the simulation model and camera path) and the camera path and lighting conditions are varied.
+Thirdly, we look at object recognition.  We use the simulator to exhaustively render camera observations of an object at every combination of pitch and yaw in small increments. We then use this data to evaluate the viewpoint independence of an exemplary state-of-the-art convolutional network.
 
 The next section presents prior work in the area and introduces the tools that we use.  Sections \ref{sec:analysis-place-rec} - \ref{sec:object-recognition} evaluate our approach for robust place recognition,
 visual SLAM and object recognition.  Finally Section \ref{sec:conclusion} presents our conclusions and future work. 
