@@ -249,11 +249,27 @@ This data suggests that for distances up to 3.5m offset from the reference locat
     \label{fig:offset-matching-param-results}
 \end{figure}
 
-\textbf{Benefits of Simulation:} The performance curves generated using simulated datasets for SeqSLAM show a peculiar behaviour for certain parameter values. This enables a comprehensive evaluation of the algorithm for such cases which is not expected in general. The corresponding input parameters of SeqSLAM which might have caused the unexpected intermittent performance drop as shown in the Figure \ref{fig:seqslam-results-stacked} could be the \emph{Offset Matching Range} and/or \emph{Patch Normalization} factor.
+\textbf{Benefits of Simulation:} The performance curves generated using simulated datasets for SeqSLAM show a peculiar behaviour for certain parameter values. This enables a comprehensive evaluation of the algorithm for such cases which is not expected in general. The corresponding input parameters of SeqSLAM which might have caused the unexpected intermittent performance drop as shown in the Figure \ref{fig:seqslam-results-stacked} could be the \emph{Offset Matching Range} and/or \emph{Patch Normalization} factor. We further analysed the performance drop for different times of day at $10\degree$ pitch. Figure shows the SAD matrix comparison with ground truth, true positives and false positives marked.
+
+\begin{figure*}[t]
+    \includegraphics[scale=0.4]{result-marked-dawn-down-10}
+    \includegraphics[scale=0.4]{result-marked-morning-down-10}
+    \includegraphics[scale=0.4]{result-marked-noon-down-10}
+    \includegraphics[scale=0.4]{result-marked-afternoon-down-10}
+    \includegraphics[scale=0.4]{result-marked-sunset-down-10}
+    \caption{The SAD matrix for comparison of Noon Baseline dataset with a change in $10\degree$ pitch for increasing time of day from dawn to sunset. The ground truth is marked in blue and forms the diagonal of the matrix with true positives overlaid in green on the diagonal. The false positives are marked in red.}
+    \label{fig:seqSLAM-diffMat}
+\end{figure*}
 
 \subsection{Comparison to real-world}
 
-It is important to verify that performance change in simulation is representative of performance change in the real world. To test this, we compared performance drop over lateral viewpoint change using SeqSLAM for data from a real street and for data generated from a simulation of a similar street. The results can be seen in Figure \ref{fig:real-world-results}.
+It is important to verify that performance change in simulation is representative of performance change in the real world. To test this, we compared performance drop over lateral viewpoint change using SeqSLAM for data from a real street and for data generated from a simulation of a similar street. The real data experiment images are shown in Figure \ref{fig:real-world-data} and the performance results can be seen in Figure \ref{fig:real-world-results}.
+
+\begin{figure*}[t]
+    \includegraphics[scale=0.25]{real-data-lateralOffset}
+    \caption{Images for five different traversals of a street with different lateral offsets. This real world data is used to compare the trend of performance change with change in lateral shifts as compared to the simulated data.}
+    \label{fig:real-world-data}
+\end{figure*}
 
 Unsurprisingly, observed performance is consistently better in simulation; we ascribe this to a lack of sufficient realism in the simulation, which was built simply and quickly. However, the performance follows the same trends in both environments, falling off smoothly as the offset difference increases. This demonstrates that performance results obtained in simulation obey similar trends to data obtained from even simplistic simulations.
 
