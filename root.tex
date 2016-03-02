@@ -122,7 +122,7 @@ In order to explore how the performance of place recognition changes with time o
 
 \subsection{Place Recognition: Sum of Absolute Differences}
 
-The first test we did was on simple place recognition using simple sum-of-absolute-differences (SAD) based image matching. While this is neither state-of-the-art nor particularly effective, sum-of-absolute-differences is a common metric which is used in many computer vision algorithms, including SeqSLAM discussed below. As such, an analysis of it's performance characteristics is potentially interesting.
+The first test we did was on simple place recognition using simple sum-of-absolute-differences (SAD) based image matching. While this is neither state-of-the-art nor particularly effective, sum-of-absolute-differences is a common metric which is used in many computer vision algorithms, including SeqSLAM discussed below. As such, an analysis of its performance characteristics is potentially interesting.
 
 Before matching, each image is down-sampled to 64x64 pixels and reduced to greyscale, in order to save computation time. The matcher used compares each image in a query dataset to each of those in a reference dataset, and considers the reference image with the lowest sum of absolute difference to be a match. The performance is then the percentage of images for which the matched reference image is taken from a place close to the query image.
 
@@ -166,7 +166,7 @@ The first immediately obvious result is the anomalous low performance values for
 
 The other feature of note in the performance characteristics is the way the F1 score plateaus for translational offsets of less than 1 and orientation changes of 5\degree. When the algorithm performs well, it seems to do so irrespective of the time of day. Strong condition invariance has been noted in previous work as a particular feature of SeqSLAM \cite{Milford2012}, so it is good to see it confirmed here. Note however that when the performance falls off, it becomes less condition invariant, falling off further toward sunset and sunrise.
 
-Using high-fidelity simulation has allowed us to explore the behaviour of SeqSLAM more comprehensively than ever before, and has revealed new details of it's behaviour. Further investigation will be required to find the reason for this, which will lead to it becoming more reliable and even more robust.
+Using high-fidelity simulation has allowed us to explore the behaviour of SeqSLAM more comprehensively than ever before, and has revealed new details of its behaviour. Further investigation will be required to find the reason for this, which will lead to it becoming more reliable and even more robust.
 
 \begin{figure}[t]
     \includegraphics[width=7cm]{SeqSLAM-results-stacked}
@@ -224,9 +224,6 @@ The observed performance of ORB-SLAM is patchy, error seems to range inconsisten
 %    \label{fig:orbslam-results-yaw}
 %\end{figure}
 
-% Niko, uncomment this when/if you get the object recognition stuff done.
-%\import{./}{object-recognition.tex}
-
 \subsection{SeqSLAM parameter tuning}
 
 The detailed analysis we have performed can be used to inform subsequent actions, including parameter tuning. To demonstrate this, we again tested the performance of Sum of Absolute Differences on the noon datasets across the range of lateral offsets shown in Figure \ref{fig:dataset-offset-example} with a variety of different offset window parameters. SeqSLAM uses Sum of Absolute Differences combined with an offset window parameter that shifts the image pixels to achieve a better matching image. The results of this test can be seen in Figure \ref{fig:offset-matching-param-results}.
@@ -265,7 +262,7 @@ Unsurprisingly, observed performance is consistently better in simulation; we as
 
 \begin{figure}[t]
     \includegraphics[width=7cm]{real-world-results}
-    \caption{Comparison of SeqSLAM performance falloff between simulated and real-world environments as lateral offset increases. As is often the case, simulated performance is better in an absolute sense, but the trend is the same in both cases.}
+    \caption{Comparison of SeqSLAM performance falloff between simulated and real-world environments as lateral offset increases. As is often the case, simulated performance is better in an absolute sense, but the trend is the same in both cases. This data was not compared across multiple times of day.}
     \label{fig:real-world-results}
 \end{figure}
 
@@ -283,6 +280,25 @@ Unsurprisingly, observed performance is consistently better in simulation; we as
 %        \item Make some simple suggestions here, such as determining what ratio of training images are needed 
 %    \end{itemize}
 %\end{enumerate}
+
+\section{Analysis of Object Recognition Viewpoint Dependency}
+
+Another area of robotics research that can benefit from high fidelity simulation is visual object recognition and detection.
+Much of the recent progress in this field has been driven by the computer vision community's intensive race to achieve ever improving performance on large image recognition datasets like ImageNet \cite{Russakovsky14} that is curated from large online photo repositories. State-of-the-art deep learning techniques now rival or surpass human performance and often approach perfect performance on these test sets. Rationally, related research fields such as robotics should be the beneficiary of such significant advances, but with a few exceptions, deep learning techniques have made little headway into the robotics field. Perhaps the primary reason for this disconnect is that robots operating in unpredictable, real world environments encounter visual imagery with very different characteristics and biases (or lack of biases) to that seen in traditional computer vision datasets. 
+
+
+The high-fidelity simulation framework discussed in this paper allows to render realistic views of arbitrary objects from different viewpoints, under different lighting conditions, backgrounds, and occlusions. Such a dataset enables an in-depth analysis of current object recognition approaches to understand under which conditions and viewpoints good performance can be expected, and to inform and improve the training process to address the discovered challenges.
+
+To demonstrate the potential of such analyses, we perform a viepwoint dependency test for an exemplary state-of-the-art convolutional network for object recognition. We use the simulation framework to generate views of a coffee mug object by moving the camera around the object on a sphere. We increment pitch and yaw in 5 degrees steps while letting the camera point at the object centre. The generated images were then classified by the \texttt{vgg\_s} convolutional network \cite{Chatfield14} and we record successful or wrong classification. Fig. \ref{fig:obj-recognition} illustrates the results and reveals the object-specific viewpoint dependency: The mug could only be correctly identified when the handle was clearly visible, sticking out to the side. Furthermore, even with the handle visible, the classification failed under insufficient lighting conditions (e.g. in the area around pitch 175, yaw 100). Interestingly the mug can be identified correctly if seen from above, i.e. looking inside the mug (pitch 175 degrees), but not when observing the mug from below. Such insights can help improve the training process of object classifiers and the simulation framework can even be used to generate more training data from viewpoints or under conditions that are hard to replicate in reality.
+
+
+
+\begin{figure}[t]
+    \includegraphics[width=\linewidth]{object_recognition.pdf}
+    \caption{Simulated viewpoint-dependency test for the \texttt{vgg\_s} convolutional network \cite{Chatfield14} on a coffee mug object. Successful recognition (green) requires the mug handle to be clearly visible and the object to be well-illuminated.}
+    \label{fig:obj-recognition}
+\end{figure}
+
 
 \section{DISCUSSION}
 
@@ -305,8 +321,7 @@ The simulation allows us to create high realistic images from an arbitrary camer
 conditions can be set at will.
 We  showed how we can systematically evaluate some standard robotic vision algorithms (robust place recognition and visual SLAM) in ways which have not
 been previously possible.  These algorithms are broadly representive of the classes of image-based and feature-based methods.
-We  also showed how we can synthetically generate a large number of images to train a deep network for object recognition, and evaluated that network
-for real images of the objects concerned.
+We also showed how we can synthetically generate a large number of images to evaluate a deep network for object recognition.
 
 We have only just begun to scratch the surface of this new approach to robotic vision.
 So far our paths through the environment are set manually rather than being driven by a robotic vision algorithm.
