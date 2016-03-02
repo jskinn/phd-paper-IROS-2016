@@ -70,7 +70,7 @@ High-Fidelity Simulation for Evaluating Robotic Vision Performance
 
 \begin{figure*}[t]
     \centering
-    \includegraphics[width=\textwidth]{street-scene-overview-dataset-examples}
+    \includegraphics[height=8cm]{street-scene-overview-dataset-examples}
     \caption{The custom street scene used to capture the image datasets that were used for testing the place recognition algorithms. The line of white dots shows the baseline path followed by the camera when generating the datasets to test Sum of Absolute Differences  and SeqSLAM place recognition performance. The SLAM experiments followed a slightly different path in order to ensure a complete loop of the environment.}
     \label{fig:street-scene-overview}
 \end{figure*}
@@ -85,7 +85,7 @@ In this section we review the prior usage of simulation in robotics research and
 
 \begin{figure*}[t]
     \centering
-    \includegraphics[width=16cm]{data-comparison-stacked}
+    \includegraphics[width=13cm]{data-comparison-stacked}
     \caption{A Sample of the variation found in the datasets used for testing. The first row shows lateral offset, from left to right, images are offset are left 3.5m, 2m, 1m, 0.4m, 0.2m, Then the baseline, then offset right 0.2m, 0.4m, 1m, 2m, and 3.5m. The second row shows vertical orientation change,  left to right, images are angled are up $30\degree$, $15\degree$, $10\degree$, $5\degree$, Then the baseline, then angled down $5\degree$, $10\degree$, $15\degree$, and $30\degree$. The third row shows horizontal orientation change, from left to right, images are angled are left $30\degree$, $15\degree$, $10\degree$, $5\degree$, Then the baseline, then angled right$5\degree$, $10\degree$, $15\degree$, and $30\degree$. Finally, the lowest row shows samples of time of day variation, from left to right, images are taken at dawn, in the morning, at noon, in the afternoon, and at sunset.}
     \label{fig:dataset-example}
 \end{figure*}
@@ -132,7 +132,7 @@ In order to explore how the performance of place recognition changes with time o
 
 \subsection{Place Recognition: Sum of Absolute Differences}
 
-The first set of tests evaluated a simple Sum-of-Absolute-Differences (SAD) based place recognition approach. While this is not a state-of-the-art technique in of itself, it has formed the foundation of major place recognition algorithms including RatSLAM and SeqSLAM. 
+The first set of tests evaluated a simple Sum-of-Absolute-Differences (SAD) based place recognition approach. While this is not a state-of-the-art technique in of itself, it has formed the foundation of major place recognition algorithms including RatSLAM \cite{milford2010persistent} and SeqSLAM. 
 
 Before matching, each image is down-sampled to 64x64 pixels and reduced to greyscale, as per previous usage. The matcher used compares each image in a query dataset to each of those in a reference dataset, and considers the reference image with the lowest sum of absolute difference to be a match. The performance measure consists of the percentage of images for which the matched reference image is taken from a place close to the query image.
 
@@ -245,7 +245,7 @@ This data suggests that for distances up to 3.5m offset from the reference locat
 
 \begin{figure}[t]
     \centering
-    \includegraphics[width=7cm]{offset-matching-results}
+    \includegraphics[height=4cm]{offset-matching-results}
     \caption{Sum of Absolute Difference matching rate as the maximum offset window is increased. This result helps us choose a maximum offset appropriate for a given lateral offset}
     \label{fig:offset-matching-param-results}
 \end{figure}
@@ -255,15 +255,15 @@ This data suggests that for distances up to 3.5m offset from the reference locat
 \begin{figure*}[t]
 \centering
 \begin{tabular}[t]{ccccccccc}
-    \includegraphics[scale=0.2]{1-down30} &
-    \includegraphics[scale=0.2]{2-down15} &
-    \includegraphics[scale=0.2]{3-down10} &
-    \includegraphics[scale=0.2]{4-down5} &
-    \includegraphics[scale=0.2]{5-base} & 
-    \includegraphics[scale=0.2]{6-up5} &
-    \includegraphics[scale=0.2]{7-up10} &
-    \includegraphics[scale=0.2]{8-up15} &
-    \includegraphics[scale=0.2]{9-up30} \\
+    \includegraphics[scale=0.18]{1-down30} &
+    \includegraphics[scale=0.18]{2-down15} &
+    \includegraphics[scale=0.18]{3-down10} &
+    \includegraphics[scale=0.18]{4-down5} &
+    \includegraphics[scale=0.18]{5-base} & 
+    \includegraphics[scale=0.18]{6-up5} &
+    \includegraphics[scale=0.18]{7-up10} &
+    \includegraphics[scale=0.18]{8-up15} &
+    \includegraphics[scale=0.18]{9-up30} \\
     Down $30\degree$ & Down $15\degree$ & Down $10\degree$ & Down $5\degree$ &
     Baseline &
     Up $5\degree$ & Up $10\degree$ & Up $15\degree$ & Up $30\degree$
@@ -279,9 +279,9 @@ It is important to verify that performance change in simulation is representativ
 
 \begin{figure*}[t]
 \centering
-    \includegraphics[width=15cm,height=2cm]{real-data-lateralOffset} \\
+    \includegraphics[width=15cm,height=1.4cm]{real-data-lateralOffset} \\
     \vspace{0.1cm}
-    \includegraphics[width=15cm,height=2cm]{simulated-data-lateralOffset}
+    \includegraphics[width=15cm,height=1.4cm]{simulated-data-lateralOffset}
     \caption{Images for five different traversals of a street with different lateral offsets. This real world data (top) is used to compare the trend of performance change with change in lateral shifts as compared to the simulated data (bottom).}
     \label{fig:real-world-data}
 \end{figure*}
@@ -290,7 +290,7 @@ Unsurprisingly, observed performance is consistently better in simulation; we as
 
 \begin{figure}[t]
     \centering
-    \includegraphics[width=7cm]{real-world-results}
+    \includegraphics[height=5cm]{real-world-results}
     \caption{Comparison of SeqSLAM performance falloff between simulated and real-world environments as lateral offset increases. As is often the case, simulated performance is better in an absolute sense, but the trend is the same in both cases.}
     \label{fig:real-world-results}
 \end{figure}
@@ -321,7 +321,8 @@ The high-fidelity simulation framework discussed in this paper allows to render 
 To demonstrate the potential of such analysis, we perform a viewpoint dependency test for an exemplary state-of-the-art convolutional network for object recognition. We use the simulation framework to generate views of a coffee mug object by moving the camera around the object on a sphere. We increment pitch and yaw in 5 degrees steps while keeping the camera pointed at the object centre. The generated images were then classified by the \texttt{vgg\_s} convolutional network \cite{Chatfield14}. Fig. \ref{fig:obj-recognition} illustrates the results and reveals the object-specific viewpoint dependency: The mug could only be correctly identified when the handle was clearly visible, sticking out to the side. Furthermore, even with the handle visible, the classification failed under insufficient lighting conditions (e.g. in the area around pitch 175, yaw 100). Interestingly the mug can be identified correctly if seen from above, i.e. looking inside the mug (pitch 175 degrees), but not when observing the mug from below. Such insights can help improve the training process of object classifiers and the simulation framework can even be used to generate more training data from viewpoints or under conditions that are hard to replicate in reality.
 
 \begin{figure}[t]
-    \includegraphics[width=\linewidth]{object_recognition.pdf}
+    \centering
+    \includegraphics[height=4cm]{object_recognition.pdf}
     \caption{Simulated viewpoint-dependency test for the \texttt{vgg\_s} convolutional network \cite{Chatfield14} on a coffee mug object. Successful recognition (shaded green) requires the mug handle to be clearly visible and the object to be well-illuminated.}
     \label{fig:obj-recognition}
 \end{figure}
@@ -372,7 +373,15 @@ Creating complex 3D worlds is time consuming and we are investigating modern 3D 
 %
 %The key problem with using high-fidelity simulation is that generating simulation environments is too costly. There are a number of different ways that this can be made easier. Firstly, it is often desirable for simulation environments to mirror a real-world environment in some way, and so it should be possible to use modern 3D reconstruction techniques to lay the groundwork for a simulation environment. It should also be possible to procedurally generate more about the environment, establishing rules for the generation of roads, cities, and other environments allowing variations to be produced quickly. Finally, many assets need only be created, and a wider community using simulation and sharing work should reduce the initial costs of setting up a simulation.
 
-\addtolength{\textheight}{-12cm}   % This command serves to balance the column lengths
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\addtolength{\textheight}{-0.22cm}   % This command serves to balance the column lengths
                                   % on the last page of the document manually. It shortens
                                   % the textheight of the last page by a suitable amount.
                                   % This command does not take effect until the next page
@@ -380,19 +389,11 @@ Creating complex 3D worlds is time consuming and we are investigating modern 3D 
                                   % sure that you do not shorten the textheight too much.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\section*{APPENDIX}
 
+%Appendixes should appear before the acknowledgment.
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section*{APPENDIX}
-
-Appendixes should appear before the acknowledgment.
-
-\section*{ACKNOWLEDGMENT}
+%\section*{ACKNOWLEDGMENT}
 
 % Who should I thank here? The institute? thanking a co-author doesn't seem right. Epic Games, since it's their program I'm using?
 
