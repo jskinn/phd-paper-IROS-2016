@@ -224,9 +224,6 @@ The observed performance of ORB-SLAM is patchy, error seems to range inconsisten
 %    \label{fig:orbslam-results-yaw}
 %\end{figure}
 
-% Niko, uncomment this when/if you get the object recognition stuff done.
-%\import{./}{object-recognition.tex}
-
 \subsection{SeqSLAM parameter tuning}
 
 The detailed analysis we have performed can be used to inform subsequent actions, including parameter tuning. To demonstrate this, we again tested the performance of Sum of Absolute Differences on the noon datasets across the range of lateral offsets shown in Figure \ref{fig:dataset-offset-example} with a variety of different offset window parameters. SeqSLAM uses Sum of Absolute Differences combined with an offset window parameter that shifts the image pixels to achieve a better matching image. The results of this test can be seen in Figure \ref{fig:offset-matching-param-results}.
@@ -308,8 +305,7 @@ The simulation allows us to create high realistic images from an arbitrary camer
 conditions can be set at will.
 We  showed how we can systematically evaluate some standard robotic vision algorithms (robust place recognition and visual SLAM) in ways which have not
 been previously possible.  These algorithms are broadly representive of the classes of image-based and feature-based methods.
-We  also showed how we can synthetically generate a large number of images to train a deep network for object recognition, and evaluated that network
-for real images of the objects concerned.
+We also showed how we can synthetically generate a large number of images to evaluate a deep network for object recognition.
 
 We have only just begun to scratch the surface of this new approach to robotic vision.
 So far our paths through the environment are set manually rather than being driven by a robotic vision algorithm.
